@@ -1,8 +1,11 @@
-import React from 'react';
+import SignUpModal from 'components/main/SignUpModal';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
   display: flex;
+  width: 100%;
+  height: 100vh;
 `;
 
 const MainImage = styled.img`
@@ -74,21 +77,29 @@ const Button = styled.button`
 `;
 
 function Main() {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const onClickSignUp = () => {
+    setIsOpen((prev) => !prev);
+  };
+
   return (
     <Wrapper>
       <MainImage
         src={`${process.env.PUBLIC_URL}/images/img_StartTwitter.png `}
       />
+
       <MainContainer>
         <Logo src={`${process.env.PUBLIC_URL}/images/ic_logo.png `} />
         <h1>지금 일어나고 있는 일</h1>
         <h2>오늘 트위터에 가입하세요.</h2>
         <ButtonContainer>
-          <Button>가입하기</Button>
+          <Button onClick={onClickSignUp}>가입하기</Button>
           <Button>로그인</Button>
           <Button>Google로 시작하기</Button>
         </ButtonContainer>
       </MainContainer>
+      <SignUpModal isOpen={isOpen} onClickSignUp={onClickSignUp} />
     </Wrapper>
   );
 }
