@@ -1,10 +1,12 @@
 import React from 'react';
-import { Modal, TextField } from '@mui/material';
+import { Modal } from '@mui/material';
 import styled from 'styled-components';
 import { ISignUpModalProps } from 'types/main';
 import MonthInput from './MonthInput';
 import DayInput from './DayInput';
 import YearInput from './YearInput';
+import { useForm } from 'react-hook-form';
+import Input from './Input';
 
 const Logo = styled.img`
   width: 50px;
@@ -34,7 +36,7 @@ const ModalContainer = styled.div`
   }
 `;
 
-const MainContainer = styled.div`
+const MainContainer = styled.form`
   padding: 0 50px;
   margin-top: 30px;
 `;
@@ -88,7 +90,7 @@ const DateInputItem = styled.div`
   }
 `;
 
-const Button = styled.button`
+const SubmitButton = styled.button`
   margin: 12px 0;
   background-color: ${({ theme }) => theme.colors.white};
   border: 2px solid ${({ theme }) => theme.colors.lightgray};
@@ -108,7 +110,22 @@ const Button = styled.button`
   }
 `;
 
+interface ISignUpInputData {
+  name: string;
+  email: string;
+}
+
 function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ISignUpInputData>();
+
+  const onValide = (inputData: ISignUpInputData) => {
+    console.log(inputData);
+  };
+
   return (
     <div>
       <Modal open={isOpen} onClose={onClickSignUp}>
@@ -118,8 +135,23 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
           <MainContainer>
             <h1>계정을 생성하세요</h1>
             <InputContainer>
-              <TextField type="text" label="이름" />
-              <TextField type="email" label="이메일" />
+              <Input
+                type="text"
+                label="이름"
+                errors={errors.name}
+                register={register('name', {
+                  required: '이름을 입력해주세요.',
+                })}
+              />
+
+              <Input
+                type="email"
+                label="이메일"
+                errors={errors.email}
+                register={register('email', {
+                  required: '이메일을 입력해주세요.',
+                })}
+              />
             </InputContainer>
 
             <DateContainer>
@@ -140,7 +172,9 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
                 </DateInputItem>
               </DateInputContainer>
             </DateContainer>
-            <Button>가입하기</Button>
+            <SubmitButton onClick={handleSubmit(onValide)}>
+              가입하기
+            </SubmitButton>
           </MainContainer>
         </ModalContainer>
       </Modal>

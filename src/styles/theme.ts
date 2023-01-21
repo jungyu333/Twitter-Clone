@@ -5,6 +5,7 @@ const colors = {
   white: '#FFFFFF',
   contents: '#A6D0F5',
   lightgray: '#c4c3c0',
+  error: '#D32F2F',
 };
 
 export type ColorsTypes = typeof colors;
