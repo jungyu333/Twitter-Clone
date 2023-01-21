@@ -1,14 +1,10 @@
 import React from 'react';
-import {
-  MenuItem,
-  Modal,
-  NativeSelect,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from '@mui/material';
+import { Modal, TextField } from '@mui/material';
 import styled from 'styled-components';
 import { ISignUpModalProps } from 'types/main';
+import MonthInput from './MonthInput';
+import DayInput from './DayInput';
+import YearInput from './YearInput';
 
 const Logo = styled.img`
   width: 50px;
@@ -134,32 +130,13 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
               </p>
               <DateInputContainer>
                 <DateInputItem>
-                  <label>월</label>
-                  <NativeSelect value={4}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => {
-                      return <option value={item}>{item}월</option>;
-                    })}
-                  </NativeSelect>
-                </DateInputItem>
-
-                <DateInputItem>
-                  <label>일</label>
-                  <NativeSelect value={23}>
-                    {[
-                      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-                    ].map((item) => {
-                      return <option value={item}>{item}</option>;
-                    })}
-                  </NativeSelect>
+                  <MonthInput />
                 </DateInputItem>
                 <DateInputItem>
-                  <label>년</label>
-                  <NativeSelect value={1}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => {
-                      return <option value={item}>{item}</option>;
-                    })}
-                  </NativeSelect>
+                  <DayInput />
+                </DateInputItem>
+                <DateInputItem>
+                  <YearInput />
                 </DateInputItem>
               </DateInputContainer>
             </DateContainer>
