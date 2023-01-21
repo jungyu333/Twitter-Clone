@@ -1,14 +1,12 @@
-import React from 'react';
-import {
-  MenuItem,
-  Modal,
-  NativeSelect,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from '@mui/material';
+import React, { useEffect } from 'react';
+import { Modal } from '@mui/material';
 import styled from 'styled-components';
 import { ISignUpModalProps } from 'types/main';
+import MonthInput from './MonthInput';
+import DayInput from './DayInput';
+import YearInput from './YearInput';
+import { useForm } from 'react-hook-form';
+import Input from './Input';
 
 const Logo = styled.img`
   width: 50px;
@@ -38,7 +36,7 @@ const ModalContainer = styled.div`
   }
 `;
 
-const MainContainer = styled.div`
+const MainContainer = styled.form`
   padding: 0 50px;
   margin-top: 30px;
 `;
@@ -92,7 +90,7 @@ const DateInputItem = styled.div`
   }
 `;
 
-const Button = styled.button`
+const SubmitButton = styled.button`
   margin: 12px 0;
   background-color: ${({ theme }) => theme.colors.white};
   border: 2px solid ${({ theme }) => theme.colors.lightgray};
@@ -112,7 +110,35 @@ const Button = styled.button`
   }
 `;
 
+interface ISignUpInputData {
+  name: string;
+  email: string;
+}
+
 function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    setError,
+  } = useForm<ISignUpInputData>();
+
+  const onValide = (inputData: ISignUpInputData) => {
+    console.log(inputData);
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
+      setValue('email', '');
+      setValue('name', '');
+      setError('email', { message: '' });
+      setError('name', { message: '' });
+    }
+  }, [isOpen]);
+
   return (
     <div>
       <Modal open={isOpen} onClose={onClickSignUp}>
@@ -122,8 +148,27 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
           <MainContainer>
             <h1>계정을 생성하세요</h1>
             <InputContainer>
-              <TextField type="text" label="이름" />
-              <TextField type="email" label="이메일" />
+              <Input
+                type="text"
+                label="이름"
+                errors={errors.name}
+                register={register('name', {
+                  required: '이름을 입력해주세요.',
+                })}
+              />
+
+              <Input
+                type="email"
+                label="이메일"
+                errors={errors.email}
+                register={register('email', {
+                  required: '이메일을 입력해주세요.',
+                  pattern: {
+                    value: emailRegex,
+                    message: '올바른 이메일 형식이 아닙니다.',
+                  },
+                })}
+              />
             </InputContainer>
 
             <DateContainer>
@@ -134,36 +179,19 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
               </p>
               <DateInputContainer>
                 <DateInputItem>
-                  <label>월</label>
-                  <NativeSelect value={4}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => {
-                      return <option value={item}>{item}월</option>;
-                    })}
-                  </NativeSelect>
-                </DateInputItem>
-
-                <DateInputItem>
-                  <label>일</label>
-                  <NativeSelect value={23}>
-                    {[
-                      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-                    ].map((item) => {
-                      return <option value={item}>{item}</option>;
-                    })}
-                  </NativeSelect>
+                  <MonthInput />
                 </DateInputItem>
                 <DateInputItem>
-                  <label>년</label>
-                  <NativeSelect value={1}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => {
-                      return <option value={item}>{item}</option>;
-                    })}
-                  </NativeSelect>
+                  <DayInput />
+                </DateInputItem>
+                <DateInputItem>
+                  <YearInput />
                 </DateInputItem>
               </DateInputContainer>
             </DateContainer>
-            <Button>가입하기</Button>
+            <SubmitButton onClick={handleSubmit(onValide)}>
+              가입하기
+            </SubmitButton>
           </MainContainer>
         </ModalContainer>
       </Modal>
