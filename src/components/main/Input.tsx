@@ -13,7 +13,7 @@ function Input({ type, label, register, errors }: IInputProps) {
   return (
     <>
       <TextField
-        error={Boolean(errors)}
+        error={Boolean(errors?.message)}
         autoComplete="off"
         {...register}
         type={type}

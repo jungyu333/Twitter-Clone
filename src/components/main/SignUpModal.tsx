@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Modal } from '@mui/material';
 import styled from 'styled-components';
 import { ISignUpModalProps } from 'types/main';
@@ -116,15 +116,28 @@ interface ISignUpInputData {
 }
 
 function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    setError,
   } = useForm<ISignUpInputData>();
 
   const onValide = (inputData: ISignUpInputData) => {
     console.log(inputData);
   };
+
+  useEffect(() => {
+    if (!isOpen) {
+      setValue('email', '');
+      setValue('name', '');
+      setError('email', { message: '' });
+      setError('name', { message: '' });
+    }
+  }, [isOpen]);
 
   return (
     <div>
@@ -150,6 +163,10 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
                 errors={errors.email}
                 register={register('email', {
                   required: '이메일을 입력해주세요.',
+                  pattern: {
+                    value: emailRegex,
+                    message: '올바른 이메일 형식이 아닙니다.',
+                  },
                 })}
               />
             </InputContainer>
