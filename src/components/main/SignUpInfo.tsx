@@ -1,3 +1,4 @@
+import SubmitButton from 'components/common/SubmitButton';
 import React from 'react';
 import styled from 'styled-components';
 import { ISignUpInfoProps } from 'types/main';
@@ -9,6 +10,7 @@ import YearInput from './YearInput';
 const Wrapper = styled.form`
   margin-top: 30px;
   width: 80%;
+  height: 100%;
 `;
 
 const InputContainer = styled.div`
@@ -57,26 +59,6 @@ const DateInputItem = styled.div`
   &:nth-child(even) {
     margin: 0 10px;
     width: 25%;
-  }
-`;
-
-const SubmitButton = styled.button`
-  margin: 12px 0;
-  background-color: ${({ theme }) => theme.colors.white};
-  border: 2px solid ${({ theme }) => theme.colors.lightgray};
-  padding: 15px 5px;
-  width: 100%;
-  min-width: max-content;
-  border-radius: 30px;
-  font-size: 1rem;
-  color: ${({ theme }) => theme.colors.lightgray};
-  cursor: pointer;
-  font-weight: 600;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.main};
-    border: 2px solid ${({ theme }) => theme.colors.contents};
-    color: ${({ theme }) => theme.colors.white};
   }
 `;
 
@@ -132,7 +114,11 @@ function SignUpInfo({
           </DateInputItem>
         </DateInputContainer>
       </DateContainer>
-      <SubmitButton onClick={handleSubmit(onClickNext!)}>다음</SubmitButton>
+      <SubmitButton
+        text="다음"
+        handleSubmit={handleSubmit}
+        onClickCallBack={onClickNext!}
+      />
     </Wrapper>
   );
 }

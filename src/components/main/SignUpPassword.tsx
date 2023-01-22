@@ -1,3 +1,4 @@
+import SubmitButton from 'components/common/SubmitButton';
 import React from 'react';
 import styled from 'styled-components';
 import { ISingnUpPasswordProps } from 'types/main';
@@ -6,6 +7,10 @@ import Input from './Input';
 const Wrapper = styled.form`
   margin-top: 30px;
   width: 80%;
+  height: 100px;
+  & button {
+    margin-top: 220px;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -14,26 +19,6 @@ const InputContainer = styled.div`
   width: 100%;
   & div {
     margin-top: 10px;
-  }
-`;
-
-const SubmitButton = styled.button`
-  margin: 12px 0;
-  background-color: ${({ theme }) => theme.colors.white};
-  border: 2px solid ${({ theme }) => theme.colors.lightgray};
-  padding: 15px 5px;
-  width: 100%;
-  min-width: max-content;
-  border-radius: 30px;
-  font-size: 1rem;
-  color: ${({ theme }) => theme.colors.lightgray};
-  cursor: pointer;
-  font-weight: 600;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.main};
-    border: 2px solid ${({ theme }) => theme.colors.contents};
-    color: ${({ theme }) => theme.colors.white};
   }
 `;
 
@@ -76,7 +61,11 @@ function SignUpPassword({
           })}
         />
       </InputContainer>
-      <SubmitButton onClick={handleSubmit(onValide)}>가입하기</SubmitButton>
+      <SubmitButton
+        text="가입하기"
+        handleSubmit={handleSubmit}
+        onClickCallBack={onValide}
+      />
     </Wrapper>
   );
 }
