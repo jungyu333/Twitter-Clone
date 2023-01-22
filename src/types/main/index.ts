@@ -11,3 +11,15 @@ export interface IInputProps {
   register: UseFormRegisterReturn;
   errors?: FieldError;
 }
+
+export interface IDateInputProps {
+  register: UseFormRegisterReturn;
+}
+
+export interface ISignUpInputData {
+  name: string;
+  email: string;
+  month: number;
+  year: number;
+  day: number;
+}

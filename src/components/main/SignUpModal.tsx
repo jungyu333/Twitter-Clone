@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Modal } from '@mui/material';
 import styled from 'styled-components';
-import { ISignUpModalProps } from 'types/main';
+import { ISignUpInputData, ISignUpModalProps } from 'types/main';
 import MonthInput from './MonthInput';
 import DayInput from './DayInput';
 import YearInput from './YearInput';
@@ -110,11 +110,6 @@ const SubmitButton = styled.button`
   }
 `;
 
-interface ISignUpInputData {
-  name: string;
-  email: string;
-}
-
 function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
@@ -179,13 +174,13 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
               </p>
               <DateInputContainer>
                 <DateInputItem>
-                  <MonthInput />
+                  <MonthInput register={register('month')} />
                 </DateInputItem>
                 <DateInputItem>
-                  <DayInput />
+                  <DayInput register={register('day')} />
                 </DateInputItem>
                 <DateInputItem>
-                  <YearInput />
+                  <YearInput register={register('year')} />
                 </DateInputItem>
               </DateInputContainer>
             </DateContainer>
