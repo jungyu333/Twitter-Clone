@@ -1,8 +1,6 @@
 import React from 'react';
-import { UseFormHandleSubmit } from 'react-hook-form';
 import styled from 'styled-components';
 import { ISubmitButtonProps } from 'types/common';
-import { ISignUpInputData } from 'types/main';
 
 const Button = styled.button`
   margin: 12px 0;

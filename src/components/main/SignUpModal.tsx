@@ -5,6 +5,7 @@ import { ISignUpInputData, ISignUpModalProps } from 'types/main';
 import { useForm } from 'react-hook-form';
 import SignUpInfo from './SignUpInfo';
 import SignUpPassword from './SignUpPassword';
+import { MdClear, MdKeyboardBackspace } from 'react-icons/md';
 
 const Logo = styled.img`
   width: 50px;
@@ -34,6 +35,28 @@ const ModalContainer = styled.div`
   }
 `;
 
+const HeaderButton = styled.div`
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 20px;
+  left: 20px;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  border-radius: 50%;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lightgray};
+  }
+
+  & svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
 function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
   const [isNext, setIsNext] = useState(false);
 
@@ -45,6 +68,10 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
   };
 
   const onClickNext = () => {
+    setIsNext((prev) => !prev);
+  };
+
+  const onClickPrevious = () => {
     setIsNext((prev) => !prev);
   };
 
@@ -63,6 +90,13 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
     <>
       <Modal open={isOpen} onClose={onClickSignUp}>
         <ModalContainer>
+          <HeaderButton>
+            {!isNext ? (
+              <MdClear onClick={onClickSignUp} />
+            ) : (
+              <MdKeyboardBackspace onClick={onClickPrevious} />
+            )}
+          </HeaderButton>
           <Logo src={`${process.env.PUBLIC_URL}/images/ic_logo.png `} />
           <>
             {!isNext ? (
