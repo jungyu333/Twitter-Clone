@@ -67,7 +67,12 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
   );
   const dispatch = useAppDispatch();
 
-  const { register, handleSubmit, formState, setValue, setError, getValues } =
+  const onClickClose = () => {
+    onClickSignUp();
+    setIsNext(false);
+  };
+
+  const { register, handleSubmit, formState, getValues, reset } =
     useForm<ISignUpInputData>();
 
   const onValide = (inputData: ISignUpInputData) => {
@@ -84,12 +89,7 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
 
   useEffect(() => {
     if (!isOpen) {
-      setValue('email', '');
-      setValue('name', '');
-      setValue('password', '');
-      setValue('passwordCheck', '');
-      setError('email', { message: '' });
-      setError('name', { message: '' });
+      reset();
     }
   }, [isOpen]);
 
@@ -107,11 +107,11 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
 
   return (
     <>
-      <Modal open={isOpen} onClose={onClickSignUp}>
+      <Modal open={isOpen} onClose={onClickClose}>
         <ModalContainer>
           <HeaderButton>
             {!isNext ? (
-              <MdClear onClick={onClickSignUp} />
+              <MdClear onClick={onClickClose} />
             ) : (
               <MdKeyboardBackspace onClick={onClickPrevious} />
             )}
