@@ -63,9 +63,7 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
   const { register, handleSubmit, formState, setValue, setError, getValues } =
     useForm<ISignUpInputData>();
 
-  const onValide = (inputData: ISignUpInputData) => {
-    console.log(inputData);
-  };
+  const onValide = (inputData: ISignUpInputData) => {};
 
   const onClickNext = () => {
     setIsNext((prev) => !prev);
