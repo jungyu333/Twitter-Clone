@@ -6,6 +6,9 @@ import { useForm } from 'react-hook-form';
 import SignUpInfo from './SignUpInfo';
 import SignUpPassword from './SignUpPassword';
 import { MdClear, MdKeyboardBackspace } from 'react-icons/md';
+import { RootState, useAppDispatch } from 'redux/store';
+import { signUp } from 'redux/action/auth';
+import { useSelector } from 'react-redux';
 
 const Logo = styled.img`
   width: 50px;
@@ -59,11 +62,17 @@ const HeaderButton = styled.div`
 
 function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
   const [isNext, setIsNext] = useState(false);
+  const { signUpDone, signUpError } = useSelector(
+    (state: RootState) => state.auth,
+  );
+  const dispatch = useAppDispatch();
 
   const { register, handleSubmit, formState, setValue, setError, getValues } =
     useForm<ISignUpInputData>();
 
-  const onValide = (inputData: ISignUpInputData) => {};
+  const onValide = (inputData: ISignUpInputData) => {
+    dispatch(signUp(inputData));
+  };
 
   const onClickNext = () => {
     setIsNext((prev) => !prev);
@@ -83,6 +92,18 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
       setError('name', { message: '' });
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (signUpDone) {
+      alert('회원가입이 완료되었습니다.');
+      onClickSignUp();
+      setIsNext((prev) => !prev);
+    }
+
+    if (signUpError) {
+      alert(signUpError);
+    }
+  }, [signUpDone, signUpError]);
 
   return (
     <>
