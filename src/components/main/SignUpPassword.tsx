@@ -1,5 +1,7 @@
 import SubmitButton from 'components/common/SubmitButton';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 import styled from 'styled-components';
 import { ISingnUpPasswordProps } from 'types/main';
 import Input from './Input';
@@ -29,6 +31,7 @@ function SignUpPassword({
   onValide,
   getValues,
 }: ISingnUpPasswordProps) {
+  const { signUpLoading } = useSelector((state: RootState) => state.auth);
   return (
     <Wrapper>
       <h1>비밀번호 설정하기</h1>
@@ -62,7 +65,7 @@ function SignUpPassword({
         />
       </InputContainer>
       <SubmitButton
-        text="가입하기"
+        text={signUpLoading ? 'Loading...' : '가입하기'}
         handleSubmit={handleSubmit}
         onClickCallBack={onValide}
       />

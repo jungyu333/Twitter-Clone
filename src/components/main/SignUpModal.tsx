@@ -5,6 +5,10 @@ import { ISignUpInputData, ISignUpModalProps } from 'types/main';
 import { useForm } from 'react-hook-form';
 import SignUpInfo from './SignUpInfo';
 import SignUpPassword from './SignUpPassword';
+import { MdClear, MdKeyboardBackspace } from 'react-icons/md';
+import { RootState, useAppDispatch } from 'redux/store';
+import { signUp } from 'redux/action/auth';
+import { useSelector } from 'react-redux';
 
 const Logo = styled.img`
   width: 50px;
@@ -34,17 +38,47 @@ const ModalContainer = styled.div`
   }
 `;
 
+const HeaderButton = styled.div`
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 20px;
+  left: 20px;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  border-radius: 50%;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lightgray};
+  }
+
+  & svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
 function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
   const [isNext, setIsNext] = useState(false);
+  const { signUpDone, signUpError } = useSelector(
+    (state: RootState) => state.auth,
+  );
+  const dispatch = useAppDispatch();
 
   const { register, handleSubmit, formState, setValue, setError, getValues } =
     useForm<ISignUpInputData>();
 
   const onValide = (inputData: ISignUpInputData) => {
-    console.log(inputData);
+    dispatch(signUp(inputData));
   };
 
   const onClickNext = () => {
+    setIsNext((prev) => !prev);
+  };
+
+  const onClickPrevious = () => {
     setIsNext((prev) => !prev);
   };
 
@@ -59,10 +93,29 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (signUpDone) {
+      alert('회원가입이 완료되었습니다.');
+      onClickSignUp();
+      setIsNext((prev) => !prev);
+    }
+
+    if (signUpError) {
+      alert(signUpError);
+    }
+  }, [signUpDone, signUpError]);
+
   return (
     <>
       <Modal open={isOpen} onClose={onClickSignUp}>
         <ModalContainer>
+          <HeaderButton>
+            {!isNext ? (
+              <MdClear onClick={onClickSignUp} />
+            ) : (
+              <MdKeyboardBackspace onClick={onClickPrevious} />
+            )}
+          </HeaderButton>
           <Logo src={`${process.env.PUBLIC_URL}/images/ic_logo.png `} />
           <>
             {!isNext ? (
