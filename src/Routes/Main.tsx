@@ -1,6 +1,7 @@
 import SignUpModal from 'components/main/SignUpModal';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { AiOutlineGoogle } from 'react-icons/ai';
 
 const Wrapper = styled.div`
   display: flex;
@@ -59,6 +60,14 @@ const ButtonContainer = styled.div`
 
   & button:last-child {
     margin-top: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & svg {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
   }
 `;
 
@@ -83,6 +92,10 @@ function Main() {
     setIsOpen((prev) => !prev);
   };
 
+  const onClickGoogle = () => {
+    console.log('google');
+  };
+
   return (
     <Wrapper>
       <MainImage
@@ -96,7 +109,10 @@ function Main() {
         <ButtonContainer>
           <Button onClick={onClickSignUp}>가입하기</Button>
           <Button>로그인</Button>
-          <Button>Google로 시작하기</Button>
+          <Button onClick={onClickGoogle}>
+            <AiOutlineGoogle />
+            Google로 시작하기
+          </Button>
         </ButtonContainer>
       </MainContainer>
       <SignUpModal isOpen={isOpen} onClickSignUp={onClickSignUp} />
