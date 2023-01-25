@@ -2,6 +2,7 @@ import SubmitButton from 'components/common/SubmitButton';
 import React from 'react';
 import styled from 'styled-components';
 import { ISignUpInfoProps } from 'types/main';
+import { emailRegex } from 'utils';
 import DayInput from './DayInput';
 import Input from './Input';
 import MonthInput from './MonthInput';
@@ -68,7 +69,6 @@ function SignUpInfo({
   handleSubmit,
   onClickNext,
 }: ISignUpInfoProps) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
   return (
     <Wrapper>
       <h1>계정을 생성하세요</h1>
