@@ -6,6 +6,7 @@ import {
   UseFormRegister,
   UseFormRegisterReturn,
 } from 'react-hook-form';
+import { ILogInInputData } from 'types/login';
 
 export interface ISignUpModalProps {
   isOpen: boolean;
@@ -23,13 +24,11 @@ export interface IDateInputProps {
   register: UseFormRegisterReturn;
 }
 
-export interface ISignUpInputData {
+export interface ISignUpInputData extends ILogInInputData {
   name: string;
-  email: string;
   month: number;
   year: number;
   day: number;
-  password: string;
   passwordCheck: string;
 }
 

@@ -7,6 +7,7 @@ import { googleLogIn } from 'redux/action/logIn';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Logo from 'components/common/Logo';
 
 const Wrapper = styled.div`
   display: flex;
@@ -43,11 +44,6 @@ const MainContainer = styled.div`
     font-weight: 600;
     margin: 20px 0;
   }
-`;
-
-const Logo = styled.img`
-  width: 60px;
-  height: 60px;
 `;
 
 const ButtonContainer = styled.div`
@@ -106,6 +102,10 @@ function Main() {
     dispatch(googleLogIn());
   };
 
+  const onClickLogIn = () => {
+    navigation('/login');
+  };
+
   useEffect(() => {
     if (logInError) {
       alert(logInError);
@@ -123,12 +123,12 @@ function Main() {
       />
 
       <MainContainer>
-        <Logo src={`${process.env.PUBLIC_URL}/images/ic_logo.png `} />
+        <Logo />
         <h1>지금 일어나고 있는 일</h1>
         <h2>오늘 트위터에 가입하세요.</h2>
         <ButtonContainer>
           <Button onClick={onClickSignUp}>가입하기</Button>
-          <Button>로그인</Button>
+          <Button onClick={onClickLogIn}>로그인</Button>
           <Button onClick={onClickGoogle}>
             <AiOutlineGoogle />
             Google로 시작하기

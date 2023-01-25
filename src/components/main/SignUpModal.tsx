@@ -9,11 +9,7 @@ import { MdClear, MdKeyboardBackspace } from 'react-icons/md';
 import { RootState, useAppDispatch } from 'redux/store';
 import { signUp } from 'redux/action/auth';
 import { useSelector } from 'react-redux';
-
-const Logo = styled.img`
-  width: 50px;
-  height: 50px;
-`;
+import Logo from 'components/common/Logo';
 
 const ModalContainer = styled.div`
   position: absolute;
@@ -116,7 +112,7 @@ function SignUpModal({ isOpen, onClickSignUp }: ISignUpModalProps) {
               <MdKeyboardBackspace onClick={onClickPrevious} />
             )}
           </HeaderButton>
-          <Logo src={`${process.env.PUBLIC_URL}/images/ic_logo.png `} />
+          <Logo />
           <>
             {!isNext ? (
               <SignUpInfo
