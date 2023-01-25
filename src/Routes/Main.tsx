@@ -2,6 +2,11 @@ import SignUpModal from 'components/main/SignUpModal';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { AiOutlineGoogle } from 'react-icons/ai';
+import { RootState, useAppDispatch } from 'redux/store';
+import { googleLogIn } from 'redux/action/logIn';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
   display: flex;
@@ -86,15 +91,30 @@ const Button = styled.button`
 `;
 
 function Main() {
+  const navigation = useNavigate();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const { logInDone, logInError } = useSelector(
+    (state: RootState) => state.login,
+  );
 
   const onClickSignUp = () => {
     setIsOpen((prev) => !prev);
   };
 
   const onClickGoogle = () => {
-    console.log('google');
+    dispatch(googleLogIn());
   };
+
+  useEffect(() => {
+    if (logInError) {
+      alert(logInError);
+    }
+
+    if (logInDone) {
+      navigation('/home', { replace: true });
+    }
+  }, [logInError, logInDone]);
 
   return (
     <Wrapper>
