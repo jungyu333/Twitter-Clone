@@ -3,6 +3,8 @@ import SubmitButton from 'components/common/SubmitButton';
 import Input from 'components/main/Input';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { localLogIn } from 'redux/action/logIn';
+import { useAppDispatch } from 'redux/store';
 import styled from 'styled-components';
 import { ILogInInputData } from 'types/login';
 import { emailRegex } from 'utils';
@@ -35,9 +37,10 @@ const ButtonContainer = styled.main`
 `;
 
 function LogIn() {
+  const dispatch = useAppDispatch();
   const { register, handleSubmit, formState } = useForm<ILogInInputData>();
   const onValide = (inputData: ILogInInputData) => {
-    console.log(inputData);
+    dispatch(localLogIn(inputData));
   };
 
   return (
