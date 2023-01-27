@@ -1,10 +1,12 @@
 import Logo from 'components/common/Logo';
 import SubmitButton from 'components/common/SubmitButton';
 import Input from 'components/main/Input';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { localLogIn } from 'redux/action/logIn';
-import { useAppDispatch } from 'redux/store';
+import { RootState, useAppDispatch } from 'redux/store';
 import styled from 'styled-components';
 import { ILogInInputData } from 'types/login';
 import { emailRegex } from 'utils';
@@ -36,17 +38,40 @@ const ButtonContainer = styled.main`
   }
 `;
 
+const LogInError = styled.div`
+  background-color: ${({ theme }) => theme.colors.status};
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: ${({ theme }) => theme.colors.error};
+`;
+
 function LogIn() {
   const dispatch = useAppDispatch();
+  const navigation = useNavigate();
+  const { logInDone, logInError, logInLoading } = useSelector(
+    (state: RootState) => state.login,
+  );
   const { register, handleSubmit, formState } = useForm<ILogInInputData>();
   const onValide = (inputData: ILogInInputData) => {
     dispatch(localLogIn(inputData));
   };
 
+  useEffect(() => {
+    if (logInDone) {
+      navigation('/home', { replace: true });
+    }
+  }, [logInDone]);
+
   return (
     <Wrapper>
       <Logo />
       <Header>트위터 로그인</Header>
+      {logInError && <LogInError>{logInError}</LogInError>}
       <ButtonContainer>
         <Input
           type="email"
@@ -74,7 +99,7 @@ function LogIn() {
         />
       </ButtonContainer>
       <SubmitButton
-        text="로그인"
+        text={logInLoading ? 'Loading...' : '로그인'}
         handleSubmit={handleSubmit}
         onClickCallBack={onValide}
       />
