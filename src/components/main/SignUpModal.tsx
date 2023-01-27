@@ -14,7 +14,7 @@ import Logo from 'components/common/Logo';
 const ModalContainer = styled.div`
   position: absolute;
   width: 550px;
-  height: 600px;
+  height: 700px;
   border-radius: 10px;
   box-shadow: 1px 1px 1px ${({ theme }) => theme.colors.lightgray};
   top: 50%;

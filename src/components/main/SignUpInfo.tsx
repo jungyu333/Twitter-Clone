@@ -24,7 +24,7 @@ const InputContainer = styled.div`
 `;
 
 const DateContainer = styled.div`
-  margin-top: 70px;
+  margin-top: 90px;
 
   & h2 {
     font-weight: 900;
