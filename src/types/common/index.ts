@@ -11,3 +11,12 @@ export interface ISubmitButtonProps {
     | ((inputData: ISignUpInputData) => void)
     | ((inputData: ILogInInputData) => void);
 }
+
+export interface IUser {
+  email: string;
+  birthYear: number | null;
+  birthMonth: number | null;
+  birthDay: number | null;
+  name: string;
+  uid: string;
+}
