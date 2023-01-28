@@ -2,11 +2,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { authService, dataBaseService } from 'fbase/config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import {
-  addDoc,
   collection,
+  doc,
   getDocs,
   limit,
   query,
+  setDoc,
   where,
 } from 'firebase/firestore';
 import { ISignUpInputData } from 'types/main';
@@ -32,7 +33,7 @@ export const signUp = createAsyncThunk(
           password,
         );
 
-        await addDoc(collection(dataBaseService, 'users'), {
+        await setDoc(doc(dataBaseService, 'users', response.user.uid), {
           uid: response.user.uid,
           name: name,
           email: email,

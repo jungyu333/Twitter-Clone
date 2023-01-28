@@ -1,18 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { googleLogIn, localLogIn } from 'redux/action/logIn';
+import { IUser } from 'types/common';
 
 export interface LogInState {
   logInLoading: boolean;
   logInDone: boolean;
   logInError: string | null;
-  userId: string | null;
+  user: IUser | null;
 }
 
 const initialState: LogInState = {
   logInLoading: false,
   logInDone: false,
   logInError: null,
-  userId: null,
+  user: null,
 };
 
 export const logInSlice = createSlice({
@@ -35,13 +36,17 @@ export const logInSlice = createSlice({
         state.logInDone = true;
         state.logInLoading = true;
         state.logInError = null;
-        state.userId = action.payload;
+        if (action.payload) {
+          state.user = action.payload;
+        }
       })
       .addCase(localLogIn.fulfilled, (state, action) => {
         state.logInDone = true;
         state.logInLoading = true;
         state.logInError = null;
-        state.userId = action.payload!;
+        if (action.payload) {
+          state.user = action.payload;
+        }
       })
       .addCase(googleLogIn.rejected, (state, action) => {
         state.logInLoading = false;

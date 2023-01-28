@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { authService } from 'fbase/config';
+import { authService, dataBaseService } from 'fbase/config';
 import {
   browserSessionPersistence,
   GoogleAuthProvider,
@@ -7,6 +7,9 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
+import { doc, DocumentReference, getDoc, setDoc } from 'firebase/firestore';
+import { IUser } from 'types/common';
+
 import { ILogInInputData } from 'types/login';
 
 export const googleLogIn = createAsyncThunk(
@@ -16,7 +19,30 @@ export const googleLogIn = createAsyncThunk(
       const provider = new GoogleAuthProvider();
       await setPersistence(authService, browserSessionPersistence);
       const response = await signInWithPopup(authService, provider);
-      return response.user.uid;
+
+      const userDocument = doc(
+        dataBaseService,
+        'users',
+        response.user.uid,
+      ) as DocumentReference<IUser>;
+
+      const userSnap = await getDoc(userDocument);
+
+      if (!userSnap.exists()) {
+        await setDoc(doc(dataBaseService, 'users', response.user.uid), {
+          uid: response.user.uid,
+          name: response.user.displayName,
+          email: response.user.email,
+          birthDay: null,
+          birthMonth: null,
+          birthYear: null,
+        });
+
+        const newUserSnap = await getDoc(userDocument);
+        return newUserSnap.data();
+      } else {
+        return userSnap.data();
+      }
     } catch (error) {
       return thunkApi.rejectWithValue('로그인에 실패했습니다.');
     }
@@ -35,7 +61,19 @@ export const localLogIn = createAsyncThunk(
         password,
       );
 
-      return response.user.uid;
+      const userDocument = doc(
+        dataBaseService,
+        'users',
+        response.user.uid,
+      ) as DocumentReference<IUser>;
+
+      const userSnap = await getDoc(userDocument);
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        return userData;
+      } else {
+        return thunkApi.rejectWithValue('유저 정보가 없습니다.');
+      }
     } catch (error: any) {
       if (error.code === 'auth/user-not-found') {
         return thunkApi.rejectWithValue('존재하지 않는 이메일입니다.');
