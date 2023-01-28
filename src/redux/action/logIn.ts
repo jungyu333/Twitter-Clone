@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { authService } from 'fbase/config';
+import { authService, dataBaseService } from 'fbase/config';
 import {
   browserSessionPersistence,
   GoogleAuthProvider,
@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
+import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
 import { ILogInInputData } from 'types/login';
 
 export const googleLogIn = createAsyncThunk(
@@ -16,6 +17,21 @@ export const googleLogIn = createAsyncThunk(
       const provider = new GoogleAuthProvider();
       await setPersistence(authService, browserSessionPersistence);
       const response = await signInWithPopup(authService, provider);
+
+      const userCollection = doc(dataBaseService, 'users', response.user.uid);
+      const userSnap = await getDoc(userCollection);
+
+      if (!userSnap.exists()) {
+        await addDoc(collection(dataBaseService, 'users'), {
+          uid: response.user.uid,
+          name: response.user.displayName,
+          email: response.user.email,
+          birthDay: null,
+          birthMonth: null,
+          birthYear: null,
+        });
+      }
+
       return response.user.uid;
     } catch (error) {
       return thunkApi.rejectWithValue('로그인에 실패했습니다.');
