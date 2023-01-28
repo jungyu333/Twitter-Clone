@@ -1,7 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { authService } from 'fbase/config';
 import {
+  browserSessionPersistence,
   GoogleAuthProvider,
+  setPersistence,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
@@ -12,6 +14,7 @@ export const googleLogIn = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const provider = new GoogleAuthProvider();
+      await setPersistence(authService, browserSessionPersistence);
       const response = await signInWithPopup(authService, provider);
       return response.user.uid;
     } catch (error) {
@@ -25,11 +28,13 @@ export const localLogIn = createAsyncThunk(
   async (data: ILogInInputData, thunkApi) => {
     try {
       const { email, password } = data;
+      await setPersistence(authService, browserSessionPersistence);
       const response = await signInWithEmailAndPassword(
         authService,
         email,
         password,
       );
+
       return response.user.uid;
     } catch (error: any) {
       if (error.code === 'auth/user-not-found') {
