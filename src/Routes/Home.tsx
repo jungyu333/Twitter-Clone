@@ -28,6 +28,7 @@ const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 
   & img {
     width: 50px;
@@ -77,6 +78,20 @@ const NavBar = styled.div`
   }
 `;
 
+const TweetButton = styled.div`
+  background-color: ${({ theme }) => theme.colors.contents};
+  text-align: center;
+  padding: 20px;
+  width: 200px;
+  border-radius: 30px;
+  opacity: 0.9;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.white};
+  &:hover {
+    opacity: 1;
+  }
+`;
+
 function Home() {
   return (
     <Wrapper>
@@ -109,7 +124,7 @@ function Home() {
                 </NavBar>
               </Link>
             </NavigationBar>
-            <div>트윗하기</div>
+            <TweetButton>트윗하기</TweetButton>
           </div>
 
           <div>사용자</div>
