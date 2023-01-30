@@ -20,9 +20,14 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
+	color: black;
 	font: inherit;
 	vertical-align: baseline;
 	box-sizing: border-box;
+	text-decoration: none;
+	:visited {
+		color : black;
+	}
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
