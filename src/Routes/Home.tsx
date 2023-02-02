@@ -1,12 +1,13 @@
 import Logo from 'components/common/Logo';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   MdHome,
   MdOutlineBookmarkBorder,
   MdPersonOutline,
 } from 'react-icons/md';
+import NavButton from 'components/home/NavButton';
+import UserInfoButton from 'components/home/UserInfoButton';
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,7 +30,7 @@ const HeaderContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-
+  padding: 0 12px;
   & img {
     width: 50px;
     height: 50px;
@@ -49,35 +50,6 @@ const Main = styled.main`
   flex-grow: 4;
 `;
 
-const NavBar = styled.div`
-  width: 100%;
-  font-size: 1.5rem;
-  display: flex;
-  margin: 10px 0;
-
-  &:hover {
-    & div {
-      background-color: ${({ theme }) => theme.colors.lightgray};
-    }
-  }
-
-  & div {
-    width: max-content;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 10px 20px 10px 8px;
-
-    border-radius: 20px;
-
-    & svg {
-      width: 30px;
-      height: 100%;
-      margin-right: 10px;
-    }
-  }
-`;
-
 const TweetButton = styled.div`
   background-color: ${({ theme }) => theme.colors.contents};
   text-align: center;
@@ -92,44 +64,36 @@ const TweetButton = styled.div`
   }
 `;
 
+const NavigationContainer = styled.div`
+  width: 100%;
+`;
+
 function Home() {
   return (
     <Wrapper>
       <Header>
         <HeaderContainer>
-          <div>
+          <NavigationContainer>
             <Logo />
             <NavigationBar>
-              <Link to={'/home'}>
-                <NavBar>
-                  <div>
-                    <MdHome />홈
-                  </div>
-                </NavBar>
-              </Link>
-              <Link to={'/home'}>
-                <NavBar>
-                  <div>
-                    <MdOutlineBookmarkBorder />
-                    북마크
-                  </div>
-                </NavBar>
-              </Link>
-              <Link to={'/home'}>
-                <NavBar>
-                  <div>
-                    <MdPersonOutline />
-                    프로필
-                  </div>
-                </NavBar>
-              </Link>
+              <NavButton text="홈" href="/home" icon={<MdHome />} />
+              <NavButton
+                text="북마크"
+                href="/home"
+                icon={<MdOutlineBookmarkBorder />}
+              />
+              <NavButton
+                text="프로필"
+                href="/home"
+                icon={<MdPersonOutline />}
+              />
             </NavigationBar>
             <TweetButton>트윗하기</TweetButton>
-          </div>
-
-          <div>사용자</div>
+          </NavigationContainer>
+          <UserInfoButton />
         </HeaderContainer>
       </Header>
+
       <Main>
         <div>
           <div></div>
