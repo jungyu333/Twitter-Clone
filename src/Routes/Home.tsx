@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   MdHome,
+  MdMoreVert,
   MdOutlineBookmarkBorder,
   MdPersonOutline,
 } from 'react-icons/md';
@@ -29,7 +30,7 @@ const HeaderContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-
+  padding: 0 12px;
   & img {
     width: 50px;
     height: 50px;
@@ -51,7 +52,7 @@ const Main = styled.main`
 
 const NavBar = styled.div`
   width: 100%;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   display: flex;
   margin: 10px 0;
 
@@ -68,7 +69,7 @@ const NavBar = styled.div`
     align-items: center;
     padding: 10px 20px 10px 8px;
 
-    border-radius: 20px;
+    border-radius: 30px;
 
     & svg {
       width: 30px;
@@ -92,12 +93,51 @@ const TweetButton = styled.div`
   }
 `;
 
+const Avatar = styled.div`
+  background-color: gray;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+`;
+
+const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 30px;
+  justify-content: space-between;
+  cursor: pointer;
+  margin: 10px 0;
+  padding: 10px 13px;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lightgray};
+  }
+`;
+
+const NavigationContainer = styled.div`
+  width: 100%;
+`;
+
+const InfoContainer = styled.div`
+  text-align: start;
+  max-width: 100%;
+  margin: 0 12px;
+  & h1 {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  & span {
+    font-size: 0.8rem;
+    color: ${({ theme }) => theme.colors.textgray};
+  }
+`;
+
 function Home() {
   return (
     <Wrapper>
       <Header>
         <HeaderContainer>
-          <div>
+          <NavigationContainer>
             <Logo />
             <NavigationBar>
               <Link to={'/home'}>
@@ -125,9 +165,16 @@ function Home() {
               </Link>
             </NavigationBar>
             <TweetButton>트윗하기</TweetButton>
-          </div>
+          </NavigationContainer>
 
-          <div>사용자</div>
+          <UserInfo>
+            <Avatar />
+            <InfoContainer>
+              <h1>이름</h1>
+              <span>jungyu3826@naver.com</span>
+            </InfoContainer>
+            <MdMoreVert />
+          </UserInfo>
         </HeaderContainer>
       </Header>
       <Main>
