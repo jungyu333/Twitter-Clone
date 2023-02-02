@@ -1,13 +1,13 @@
 import Logo from 'components/common/Logo';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   MdHome,
-  MdMoreVert,
   MdOutlineBookmarkBorder,
   MdPersonOutline,
 } from 'react-icons/md';
+import NavButton from 'components/home/NavButton';
+import UserInfoButton from 'components/home/UserInfoButton';
 
 const Wrapper = styled.div`
   display: flex;
@@ -50,35 +50,6 @@ const Main = styled.main`
   flex-grow: 4;
 `;
 
-const NavBar = styled.div`
-  width: 100%;
-  font-size: 1.2rem;
-  display: flex;
-  margin: 10px 0;
-
-  &:hover {
-    & div {
-      background-color: ${({ theme }) => theme.colors.lightgray};
-    }
-  }
-
-  & div {
-    width: max-content;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 10px 20px 10px 8px;
-
-    border-radius: 30px;
-
-    & svg {
-      width: 30px;
-      height: 100%;
-      margin-right: 10px;
-    }
-  }
-`;
-
 const TweetButton = styled.div`
   background-color: ${({ theme }) => theme.colors.contents};
   text-align: center;
@@ -93,43 +64,8 @@ const TweetButton = styled.div`
   }
 `;
 
-const Avatar = styled.div`
-  background-color: gray;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-`;
-
-const UserInfo = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  border-radius: 30px;
-  justify-content: space-between;
-  cursor: pointer;
-  margin: 10px 0;
-  padding: 10px 13px;
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.lightgray};
-  }
-`;
-
 const NavigationContainer = styled.div`
   width: 100%;
-`;
-
-const InfoContainer = styled.div`
-  text-align: start;
-  max-width: 100%;
-  margin: 0 12px;
-  & h1 {
-    font-weight: 600;
-    font-size: 1rem;
-  }
-  & span {
-    font-size: 0.8rem;
-    color: ${({ theme }) => theme.colors.textgray};
-  }
 `;
 
 function Home() {
@@ -140,43 +76,24 @@ function Home() {
           <NavigationContainer>
             <Logo />
             <NavigationBar>
-              <Link to={'/home'}>
-                <NavBar>
-                  <div>
-                    <MdHome />홈
-                  </div>
-                </NavBar>
-              </Link>
-              <Link to={'/home'}>
-                <NavBar>
-                  <div>
-                    <MdOutlineBookmarkBorder />
-                    북마크
-                  </div>
-                </NavBar>
-              </Link>
-              <Link to={'/home'}>
-                <NavBar>
-                  <div>
-                    <MdPersonOutline />
-                    프로필
-                  </div>
-                </NavBar>
-              </Link>
+              <NavButton text="홈" href="/home" icon={<MdHome />} />
+              <NavButton
+                text="북마크"
+                href="/home"
+                icon={<MdOutlineBookmarkBorder />}
+              />
+              <NavButton
+                text="프로필"
+                href="/home"
+                icon={<MdPersonOutline />}
+              />
             </NavigationBar>
             <TweetButton>트윗하기</TweetButton>
           </NavigationContainer>
-
-          <UserInfo>
-            <Avatar />
-            <InfoContainer>
-              <h1>이름</h1>
-              <span>jungyu3826@naver.com</span>
-            </InfoContainer>
-            <MdMoreVert />
-          </UserInfo>
+          <UserInfoButton />
         </HeaderContainer>
       </Header>
+
       <Main>
         <div>
           <div></div>
