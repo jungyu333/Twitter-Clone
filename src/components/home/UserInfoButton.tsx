@@ -1,5 +1,7 @@
 import React from 'react';
 import { MdMoreVert } from 'react-icons/md';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -16,11 +18,8 @@ const Wrapper = styled.div`
   }
 `;
 
-const Avatar = styled.div`
-  background-color: gray;
+const Avatar = styled.img`
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
 `;
 
 const InfoContainer = styled.div`
@@ -38,12 +37,13 @@ const InfoContainer = styled.div`
 `;
 
 function UserInfoButton() {
+  const { user } = useSelector((state: RootState) => state.login);
   return (
     <Wrapper>
-      <Avatar />
+      <Avatar src={process.env.REACT_APP_DEFAULT_AVATAR} />
       <InfoContainer>
-        <h1>이름</h1>
-        <span>jungyu3826@naver.com</span>
+        <h1>{user?.name}</h1>
+        <span>{user?.email}</span>
       </InfoContainer>
       <MdMoreVert />
     </Wrapper>

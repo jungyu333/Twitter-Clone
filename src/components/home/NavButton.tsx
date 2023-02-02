@@ -1,6 +1,7 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { INavButtonProps } from 'types/home';
 
 const NavBar = styled.div`
   width: 100%;
@@ -30,12 +31,6 @@ const NavBar = styled.div`
     }
   }
 `;
-
-interface INavButtonProps {
-  href: string;
-  text: string;
-  icon: ReactNode;
-}
 
 function NavButton({ href, text, icon }: INavButtonProps) {
   return (
