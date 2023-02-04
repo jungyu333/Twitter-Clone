@@ -38,6 +38,7 @@ function UserInfoButtonModal({ setIsOpen }: IUserInfoButtonModalProps) {
   const handleClickOutside = (event: React.BaseSyntheticEvent | MouseEvent) => {
     if (modalEl && !modalEl.current?.contains(event.target)) {
       setIsOpen(false);
+      console.log('cc');
     }
   };
 
@@ -45,13 +46,13 @@ function UserInfoButtonModal({ setIsOpen }: IUserInfoButtonModalProps) {
     document.addEventListener('mouseup', handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mouseup', handleClickOutside);
     };
   }, []);
 
   return (
     <UserButtonModal ref={modalEl}>
-      <UserInfoModalButton text="Log Out" href="/logout" />
+      <UserInfoModalButton text="로그아웃" href="/logout" />
       <MdArrowDropDown />
     </UserButtonModal>
   );
