@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { MdArrowDropDown } from 'react-icons/md';
 import styled from 'styled-components';
 import { IUserInfoButtonModalProps } from 'types/home';
+import UserInfoModalButton from './UserInfoModalButton';
 
 const UserButtonModal = styled.div`
   width: 250px;
@@ -13,8 +14,12 @@ const UserButtonModal = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 20px;
-  box-shadow: 2px 2px 2px ${({ theme }) => theme.colors.lightgray};
+  box-shadow: 0 5px 2px ${({ theme }) => theme.colors.lightgray};
   border: 1px solid ${({ theme }) => theme.colors.lightgray};
+  padding: 15px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   & svg {
     width: 40px;
     height: 40px;
@@ -46,6 +51,7 @@ function UserInfoButtonModal({ setIsOpen }: IUserInfoButtonModalProps) {
 
   return (
     <UserButtonModal ref={modalEl}>
+      <UserInfoModalButton text="Log Out" href="/logout" />
       <MdArrowDropDown />
     </UserButtonModal>
   );

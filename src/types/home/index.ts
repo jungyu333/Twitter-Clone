@@ -7,3 +7,8 @@ export interface INavButtonProps {
 export interface IUserInfoButtonModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface IUserInfoModalButton {
+  text: string;
+  href: string;
+}
