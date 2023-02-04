@@ -1,14 +1,17 @@
-import React from 'react';
+import { Modal } from '@mui/material';
+import React, { useState } from 'react';
 import { MdMoreVert } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 import styled from 'styled-components';
+import UserInfoButtonModal from './UserInfoButtonModal';
 
-const Wrapper = styled.div`
+const UserButtonContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
   border-radius: 30px;
+
   justify-content: space-between;
   cursor: pointer;
   margin: 10px 0;
@@ -38,15 +41,24 @@ const InfoContainer = styled.div`
 
 function UserInfoButton() {
   const { user } = useSelector((state: RootState) => state.login);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const onClickUserButton = () => {
+    setIsOpen((prev) => !prev);
+  };
+
   return (
-    <Wrapper>
-      <Avatar src={process.env.REACT_APP_DEFAULT_AVATAR} />
-      <InfoContainer>
-        <h1>{user?.name}</h1>
-        <span>{user?.email}</span>
-      </InfoContainer>
-      <MdMoreVert />
-    </Wrapper>
+    <>
+      <UserButtonContainer onClick={onClickUserButton}>
+        <Avatar src={process.env.REACT_APP_DEFAULT_AVATAR} />
+        <InfoContainer>
+          <h1>{user?.name}</h1>
+          <span>{user?.email}</span>
+        </InfoContainer>
+        <MdMoreVert />
+      </UserButtonContainer>
+      {isOpen && <UserInfoButtonModal setIsOpen={setIsOpen} />}
+    </>
   );
 }
 

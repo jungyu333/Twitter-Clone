@@ -3,3 +3,7 @@ export interface INavButtonProps {
   text: string;
   icon: React.ReactNode;
 }
+
+export interface IUserInfoButtonModalProps {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
