@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { googleLogIn, localLogIn } from 'redux/action/logIn';
+import { googleLogIn, localLogIn, logOut } from 'redux/action/logIn';
 import { IUser } from 'types/common';
 
 export interface LogInState {
@@ -7,12 +7,18 @@ export interface LogInState {
   logInDone: boolean;
   logInError: string | null;
   user: IUser | null;
+  logOutLoading: boolean;
+  logOutDone: boolean;
+  logOutError: string | null;
 }
 
 const initialState: LogInState = {
   logInLoading: false,
   logInDone: false,
   logInError: null,
+  logOutLoading: false,
+  logOutDone: false,
+  logOutError: null,
   user: null,
 };
 
@@ -36,6 +42,7 @@ export const logInSlice = createSlice({
         state.logInDone = true;
         state.logInLoading = true;
         state.logInError = null;
+        state.logOutDone = false;
         if (action.payload) {
           state.user = action.payload;
         }
@@ -43,6 +50,7 @@ export const logInSlice = createSlice({
       .addCase(localLogIn.fulfilled, (state, action) => {
         state.logInDone = true;
         state.logInLoading = true;
+        state.logOutDone = false;
         state.logInError = null;
         if (action.payload) {
           state.user = action.payload;
@@ -57,6 +65,23 @@ export const logInSlice = createSlice({
         state.logInLoading = false;
         state.logInDone = false;
         state.logInError = action.payload as string;
+      })
+      .addCase(logOut.pending, (state) => {
+        state.logOutLoading = true;
+        state.logOutDone = false;
+        state.logOutError = null;
+      })
+      .addCase(logOut.fulfilled, (state) => {
+        state.logOutLoading = false;
+        state.logOutDone = true;
+        state.logInDone = false;
+        state.user = null;
+        state.logOutError = null;
+      })
+      .addCase(logOut.rejected, (state, action) => {
+        state.logOutLoading = false;
+        state.logOutDone = false;
+        state.logOutError = action.payload as string;
       });
   },
 });

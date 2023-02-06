@@ -1,5 +1,9 @@
 import Logo from 'components/common/Logo';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { logOut } from 'redux/action/logIn';
+import { RootState, useAppDispatch } from 'redux/store';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -78,6 +82,22 @@ const CancelButton = styled.button`
 `;
 
 function LogOut() {
+  const { logOutDone } = useSelector((state: RootState) => state.login);
+  const dispatch = useAppDispatch();
+  const navigation = useNavigate();
+  const onClickCancel = () => {
+    navigation('/home', { replace: true });
+  };
+
+  const onClickLogOut = () => {
+    dispatch(logOut());
+  };
+
+  useEffect(() => {
+    if (logOutDone) {
+      navigation('/', { replace: true });
+    }
+  }, [logOutDone]);
   return (
     <Wrapper>
       <LogOutContainer>
@@ -90,8 +110,8 @@ function LogOut() {
           </p>
         </TextContainer>
         <ButtonContainer>
-          <LogOutButton>로그 아웃</LogOutButton>
-          <CancelButton>취소</CancelButton>
+          <LogOutButton onClick={onClickLogOut}>로그 아웃</LogOutButton>
+          <CancelButton onClick={onClickCancel}>취소</CancelButton>
         </ButtonContainer>
       </LogOutContainer>
     </Wrapper>
