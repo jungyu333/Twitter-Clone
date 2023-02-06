@@ -87,3 +87,11 @@ export const localLogIn = createAsyncThunk(
     }
   },
 );
+
+export const logOut = createAsyncThunk('logout', async (data, thunkApi) => {
+  try {
+    authService.signOut();
+  } catch (error) {
+    return thunkApi.rejectWithValue('로그아웃에 실패했습니다.');
+  }
+});
