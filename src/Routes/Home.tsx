@@ -8,7 +8,7 @@ import {
 } from 'react-icons/md';
 import NavButton from 'components/home/NavButton';
 import UserInfoButton from 'components/home/UserInfoButton';
-import { Link } from 'react-router-dom';
+import MainHeader from 'components/home/MainHeader';
 
 const Wrapper = styled.div`
   display: flex;
@@ -76,57 +76,6 @@ const NavigationContainer = styled.div`
   width: 100%;
 `;
 
-const MainHeader = styled.header`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  height: 100px;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.lightgray};
-
-  & h1 {
-    font-weight: 800;
-    font-size: 1.3rem;
-    width: 100%;
-    height: 50%;
-    padding: 10px;
-  }
-`;
-
-const TabContainer = styled.div`
-  display: flex;
-  height: 50%;
-  & a {
-    font-weight: 600;
-    width: 50%;
-    height: 100%;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.lightgray};
-    }
-  }
-`;
-
-const Tab = styled.span`
-  display: flex;
-  flex-direction: column;
-  width: max-content;
-  position: relative;
-`;
-
-const TabUnderBar = styled.span`
-  width: 100%;
-  height: 4px;
-  background-color: ${({ theme }) => theme.colors.contents};
-  position: absolute;
-  bottom: -100%;
-  border-radius: 10px;
-  margin-bottom: 1px;
-`;
-
 function Home() {
   return (
     <Wrapper>
@@ -155,23 +104,7 @@ function Home() {
 
       <Main>
         <MainContainer>
-          <MainHeader>
-            <h1>홈</h1>
-            <TabContainer>
-              <Link to={'/home'}>
-                <Tab>
-                  <span>For you</span>
-                  <TabUnderBar />
-                </Tab>
-              </Link>
-              <Link to={'/home'}>
-                <Tab>
-                  <span>Following</span>
-                  <TabUnderBar />
-                </Tab>
-              </Link>
-            </TabContainer>
-          </MainHeader>
+          <MainHeader />
         </MainContainer>
       </Main>
     </Wrapper>
