@@ -16,4 +16,7 @@ export interface IUserInfoModalButton {
 export interface IMainHeaderTabButton {
   href: string;
   text: string;
+  setIsFollowing: React.Dispatch<React.SetStateAction<boolean>>;
+  isFollowing: boolean;
+  index: number;
 }

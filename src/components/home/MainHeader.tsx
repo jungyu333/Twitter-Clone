@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import MainHeaderTabButton from './MainHeaderTabButton';
 
@@ -22,14 +22,15 @@ const Wrapper = styled.header`
 const TabContainer = styled.div`
   display: flex;
   height: 50%;
+
   & a {
-    font-weight: 600;
     width: 50%;
     height: 100%;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
+
     &:hover {
       background-color: ${({ theme }) => theme.colors.lightgray};
     }
@@ -37,12 +38,26 @@ const TabContainer = styled.div`
 `;
 
 function MainHeader() {
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+
   return (
     <Wrapper>
       <h1>홈</h1>
       <TabContainer>
-        <MainHeaderTabButton href="/home" text="For you" />
-        <MainHeaderTabButton href="/home" text="Following" />
+        <MainHeaderTabButton
+          isFollowing={!isFollowing}
+          setIsFollowing={setIsFollowing}
+          href="/home"
+          text="For you"
+          index={0}
+        />
+        <MainHeaderTabButton
+          isFollowing={isFollowing}
+          setIsFollowing={setIsFollowing}
+          href="/home"
+          text="Following"
+          index={1}
+        />
       </TabContainer>
     </Wrapper>
   );
