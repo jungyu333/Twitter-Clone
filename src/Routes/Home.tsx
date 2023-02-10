@@ -8,6 +8,7 @@ import {
 } from 'react-icons/md';
 import NavButton from 'components/home/NavButton';
 import UserInfoButton from 'components/home/UserInfoButton';
+import MainHeader from 'components/home/MainHeader';
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,6 +21,7 @@ const Header = styled.header`
   display: flex;
   flex-grow: 1.5;
   justify-content: flex-end;
+  width: 25%;
 `;
 
 const HeaderContainer = styled.div`
@@ -48,6 +50,12 @@ const NavigationBar = styled.nav`
 const Main = styled.main`
   display: flex;
   flex-grow: 4;
+  width: 60%;
+`;
+
+const MainContainer = styled.div`
+  width: 550px;
+  border-right: 1px solid ${({ theme }) => theme.colors.lightgray};
 `;
 
 const TweetButton = styled.div`
@@ -95,9 +103,9 @@ function Home() {
       </Header>
 
       <Main>
-        <div>
-          <div></div>
-        </div>
+        <MainContainer>
+          <MainHeader />
+        </MainContainer>
       </Main>
     </Wrapper>
   );

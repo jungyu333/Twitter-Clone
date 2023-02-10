@@ -12,3 +12,8 @@ export interface IUserInfoModalButton {
   text: string;
   href: string;
 }
+
+export interface IMainHeaderTabButton {
+  href: string;
+  text: string;
+}
