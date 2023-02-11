@@ -1,5 +1,5 @@
 import Logo from 'components/common/Logo';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 import {
   MdHome,
@@ -145,6 +145,19 @@ const InputBottom = styled.div`
   }
 `;
 
+const LetterCount = styled.span`
+  margin-right: 10px;
+  color: ${({ theme }) => theme.colors.textgray};
+  font-size: 1rem;
+  padding-top: 3px;
+`;
+
+const TweetButtonContainer = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const InputTweetButton = styled.button`
   color: ${({ theme }) => theme.colors.white};
   background-color: ${({ theme }) => theme.colors.lightcontents};
@@ -157,6 +170,14 @@ const InputTweetButton = styled.button`
 
 function Home() {
   const textRef = useRef<HTMLTextAreaElement>(null);
+  const [maxLength, setMaxLength] = useState<number>(0);
+
+  const calcLetterCount = useCallback(() => {
+    if (textRef.current) {
+      setMaxLength(textRef.current?.value?.length!);
+    }
+  }, []);
+
   const handleResizeHeight = useCallback(() => {
     if (textRef.current) {
       textRef.current.style.height = 'auto';
@@ -202,6 +223,8 @@ function Home() {
                 ref={textRef}
                 onInput={handleResizeHeight}
                 rows={2}
+                onKeyUp={calcLetterCount}
+                onKeyDown={calcLetterCount}
                 maxLength={150}
               />
               <InputBottom>
@@ -209,7 +232,11 @@ function Home() {
                   <MdOutlineImage />
                 </div>
 
-                <InputTweetButton>Tweet</InputTweetButton>
+                <TweetButtonContainer>
+                  <LetterCount>{maxLength}</LetterCount>
+
+                  <InputTweetButton>Tweet</InputTweetButton>
+                </TweetButtonContainer>
               </InputBottom>
             </InputContainer>
           </TweetInputContainer>
