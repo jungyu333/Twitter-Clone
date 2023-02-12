@@ -2,7 +2,6 @@ import Logo from 'components/common/Logo';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
-  MdClear,
   MdHome,
   MdOutlineBookmarkBorder,
   MdPersonOutline,
@@ -11,7 +10,7 @@ import NavButton from 'components/home/NavButton';
 import UserInfoButton from 'components/home/UserInfoButton';
 import MainHeader from 'components/home/MainHeader';
 import TweetInput from 'components/home/TweetInput';
-import { Modal } from '@mui/material';
+import TweetModal from 'components/home/TweetModal';
 
 const Wrapper = styled.div`
   display: flex;
@@ -79,47 +78,6 @@ const NavigationContainer = styled.div`
   width: 100%;
 `;
 
-const ModalContainer = styled.div`
-  position: absolute;
-  width: 600px;
-  max-height: 90vh;
-  border-radius: 10px;
-  box-shadow: 1px 1px 1px ${({ theme }) => theme.colors.lightgray};
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: ${({ theme }) => theme.colors.white};
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 0 15px;
-
-  & div {
-    padding: 0;
-    border-bottom: none;
-  }
-`;
-
-const ExitButton = styled.div`
-  margin: 10px 0;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  cursor: pointer;
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.lightgray};
-  }
-
-  & svg {
-    width: 50%;
-    height: 50%;
-  }
-`;
-
 function Home() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const onClickTweet = () => {
@@ -156,16 +114,7 @@ function Home() {
           <TweetInput />
         </MainContainer>
       </Main>
-
-      <Modal open={isOpen} onClose={onClickTweet}>
-        <ModalContainer>
-          <ExitButton onClick={onClickTweet}>
-            <MdClear />
-          </ExitButton>
-
-          <TweetInput />
-        </ModalContainer>
-      </Modal>
+      <TweetModal isOpen={isOpen} onClickTweet={onClickTweet} />
     </Wrapper>
   );
 }
