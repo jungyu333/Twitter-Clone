@@ -11,6 +11,7 @@ const colors = {
   logoutgray: '#999999',
   black: '#0F141A',
   lightcontents: '#A6D0F5',
+  gray: '#5D6164',
 };
 
 export type ColorsTypes = typeof colors;
