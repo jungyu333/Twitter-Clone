@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { MdOutlineImage } from 'react-icons/md';
+import { MdClear, MdOutlineImage } from 'react-icons/md';
 import styled from 'styled-components';
 
 const TweetInputContainer = styled.div`
@@ -91,16 +91,52 @@ const InputTweetButton = styled.button<{ isInputFill: boolean }>`
   padding: 8px 15px;
   border: none;
   border-radius: 30px;
-
   cursor: ${({ isInputFill }) => (isInputFill ? 'pointer' : 'auto')};
   background-color: ${({ theme, isInputFill }) =>
     isInputFill ? theme.colors.contents : theme.colors.lightcontents};
 `;
 
+const ImageInput = styled.input`
+  display: none;
+`;
+
+const PreviewImage = styled.img<{ index: number; previewLength: number }>`
+  width: ${({ previewLength }) => (previewLength > 1 ? '200px' : '400px')};
+  height: ${({ previewLength }) => (previewLength > 1 ? '200px' : '400px')};
+`;
+
+const PreviewBox = styled.div`
+  position: relative;
+`;
+
+const PreviewDelete = styled.div`
+  position: absolute;
+  top: 0;
+  width: 25px;
+  height: 25px;
+  background-color: ${({ theme }) => theme.colors.gray};
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  & svg {
+    fill: ${({ theme }) => theme.colors.white};
+  }
+`;
+
+const PreviewContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 400px;
+`;
+
 function TweetInput() {
   const textRef = useRef<HTMLTextAreaElement>(null);
+  const imageRef = useRef<HTMLInputElement>(null);
   const [maxLength, setMaxLength] = useState<number>(0);
   const [isInputFill, setIsInputFill] = useState<boolean>(false);
+  const [preview, setPreview] = useState<string[]>([]);
 
   const calcLetterCount = useCallback(() => {
     if (textRef.current) {
@@ -119,6 +155,33 @@ function TweetInput() {
       textRef.current.style.height = textRef.current.scrollHeight + 'px';
     }
   }, []);
+
+  const onClickImage = () => {
+    if (imageRef.current) {
+      imageRef.current.click();
+    }
+  };
+
+  const onChangeImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const file = event.target.files[0];
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = (data) => {
+        if (typeof data.target?.result === 'string') {
+          setPreview([data.target.result, ...preview]);
+        }
+      };
+      event.target.value = '';
+    }
+  };
+
+  const onClickPreviewDelete = (event: React.MouseEvent, index: number) => {
+    const previewImage = preview;
+    previewImage.splice(index, 1);
+    setPreview([...previewImage]);
+  };
+
   return (
     <TweetInputContainer>
       <AvatarContainer>
@@ -135,10 +198,35 @@ function TweetInput() {
           onKeyDown={calcLetterCount}
           maxLength={150}
         />
+        <PreviewContainer>
+          {preview.map((image, index) => (
+            <PreviewBox key={index}>
+              <PreviewDelete
+                onClick={(event: React.MouseEvent) =>
+                  onClickPreviewDelete(event, index)
+                }
+              >
+                <MdClear />
+              </PreviewDelete>
+              <PreviewImage
+                previewLength={preview.length}
+                index={index}
+                src={image}
+              />
+            </PreviewBox>
+          ))}
+        </PreviewContainer>
+
         <InputBottom>
-          <div>
+          <div onClick={onClickImage}>
             <MdOutlineImage />
           </div>
+          <ImageInput
+            type={'file'}
+            ref={imageRef}
+            accept="image/*"
+            onChange={onChangeImage}
+          />
 
           <TweetButtonContainer>
             <LetterCount>{maxLength}</LetterCount>
