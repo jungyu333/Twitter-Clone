@@ -38,7 +38,6 @@ function UserInfoButtonModal({ setIsOpen }: IUserInfoButtonModalProps) {
   const handleClickOutside = (event: React.BaseSyntheticEvent | MouseEvent) => {
     if (modalEl && !modalEl.current?.contains(event.target)) {
       setIsOpen(false);
-      console.log('cc');
     }
   };
 

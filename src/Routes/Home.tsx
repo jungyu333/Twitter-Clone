@@ -1,16 +1,16 @@
 import Logo from 'components/common/Logo';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
   MdHome,
   MdOutlineBookmarkBorder,
-  MdOutlineImage,
   MdPersonOutline,
 } from 'react-icons/md';
 import NavButton from 'components/home/NavButton';
 import UserInfoButton from 'components/home/UserInfoButton';
 import MainHeader from 'components/home/MainHeader';
 import TweetInput from 'components/home/TweetInput';
+import TweetModal from 'components/home/TweetModal';
 
 const Wrapper = styled.div`
   display: flex;
@@ -79,6 +79,10 @@ const NavigationContainer = styled.div`
 `;
 
 function Home() {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const onClickTweet = () => {
+    setIsOpen((prev) => !prev);
+  };
   return (
     <Wrapper>
       <Header>
@@ -98,7 +102,7 @@ function Home() {
                 icon={<MdPersonOutline />}
               />
             </NavigationBar>
-            <TweetButton>트윗하기</TweetButton>
+            <TweetButton onClick={onClickTweet}>트윗하기</TweetButton>
           </NavigationContainer>
           <UserInfoButton />
         </HeaderContainer>
@@ -110,6 +114,7 @@ function Home() {
           <TweetInput />
         </MainContainer>
       </Main>
+      <TweetModal isOpen={isOpen} onClickTweet={onClickTweet} />
     </Wrapper>
   );
 }
