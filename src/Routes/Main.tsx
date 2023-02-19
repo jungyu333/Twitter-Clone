@@ -75,7 +75,7 @@ const ButtonContainer = styled.div`
 const Button = styled.button`
   margin: 12px 0;
   background-color: ${({ theme }) => theme.colors.white};
-  border: 2px solid ${({ theme }) => theme.colors.contents};
+  border: 2px solid ${({ theme }) => theme.colors.lightcontents};
   padding: 15px 5px;
   width: 100%;
   min-width: max-content;
