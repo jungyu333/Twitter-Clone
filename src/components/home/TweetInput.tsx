@@ -44,7 +44,7 @@ const TweetTextArea = styled.textarea`
   }
 `;
 
-const InputBottom = styled.div`
+const InputBottom = styled.div<{ previewLength: number }>`
   display: flex;
   margin: 5px 0;
   align-items: center;
@@ -57,16 +57,20 @@ const InputBottom = styled.div`
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    cursor: pointer;
+    cursor: ${({ previewLength }) =>
+      previewLength === 4 ? 'default' : 'pointer'};
     &:hover {
-      background-color: ${({ theme }) => theme.colors.lightcontents};
+      background-color: ${({ theme, previewLength }) =>
+        previewLength === 4 ? 'none' : theme.colors.lightcontents};
     }
   }
 
   & svg {
     width: 20px;
     height: 20px;
-    color: ${({ theme }) => theme.colors.contents};
+
+    color: ${({ theme, previewLength }) =>
+      previewLength === 4 ? theme.colors.lightcontents : theme.colors.contents};
   }
 `;
 
@@ -158,7 +162,11 @@ function TweetInput() {
 
   const onClickImage = () => {
     if (imageRef.current) {
-      imageRef.current.click();
+      if (preview.length === 4) {
+        return;
+      } else {
+        imageRef.current.click();
+      }
     }
   };
 
@@ -217,7 +225,7 @@ function TweetInput() {
           ))}
         </PreviewContainer>
 
-        <InputBottom>
+        <InputBottom previewLength={preview.length}>
           <div onClick={onClickImage}>
             <MdOutlineImage />
           </div>
