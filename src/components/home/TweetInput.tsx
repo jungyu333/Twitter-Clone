@@ -1,5 +1,9 @@
-import React, { useCallback, useRef, useState } from 'react';
+import LinearLoading from 'components/common/LinearLoading';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { MdClear, MdOutlineImage } from 'react-icons/md';
+import { useSelector } from 'react-redux';
+import { createTweet } from 'redux/action/tweet';
+import { RootState, useAppDispatch } from 'redux/store';
 import styled from 'styled-components';
 
 const TweetInputContainer = styled.div`
@@ -22,7 +26,7 @@ const TweetAvatar = styled.div`
   background-color: gray;
 `;
 
-const InputContainer = styled.div`
+const InputContainer = styled.form`
   width: 100%;
   height: 100%;
 `;
@@ -141,6 +145,12 @@ function TweetInput() {
   const [maxLength, setMaxLength] = useState<number>(0);
   const [isInputFill, setIsInputFill] = useState<boolean>(false);
   const [preview, setPreview] = useState<string[]>([]);
+  const [tweetText, setTweetText] = useState<string>('');
+  const dispatch = useAppDispatch();
+  const { user } = useSelector((state: RootState) => state.login);
+  const { tweetUploadLoading, tweetUploadDone } = useSelector(
+    (state: RootState) => state.tweet,
+  );
 
   const calcLetterCount = useCallback(() => {
     if (textRef.current) {
@@ -190,62 +200,100 @@ function TweetInput() {
     setPreview([...previewImage]);
   };
 
+  const onChangeTweetText = useCallback(
+    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const text = event.target.value;
+      setTweetText(text);
+    },
+    [],
+  );
+
+  const onSubmitTweet = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (user) {
+      const createdAt = Date.now();
+
+      dispatch(
+        createTweet({
+          text: tweetText,
+          userId: user.uid,
+          createdAt: createdAt,
+        }),
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (tweetUploadDone) {
+      setTweetText('');
+    }
+  }, [tweetUploadDone]);
+
   return (
-    <TweetInputContainer>
-      <AvatarContainer>
-        <TweetAvatar />
-      </AvatarContainer>
+    <>
+      {tweetUploadLoading && <LinearLoading />}
 
-      <InputContainer>
-        <TweetTextArea
-          placeholder="What's happening?"
-          ref={textRef}
-          onInput={handleResizeHeight}
-          rows={2}
-          onKeyUp={calcLetterCount}
-          onKeyDown={calcLetterCount}
-          maxLength={150}
-        />
-        <PreviewContainer>
-          {preview.map((image, index) => (
-            <PreviewBox key={index}>
-              <PreviewDelete
-                onClick={(event: React.MouseEvent) =>
-                  onClickPreviewDelete(event, index)
-                }
-              >
-                <MdClear />
-              </PreviewDelete>
-              <PreviewImage
-                previewLength={preview.length}
-                index={index}
-                src={image}
-              />
-            </PreviewBox>
-          ))}
-        </PreviewContainer>
+      <TweetInputContainer>
+        <AvatarContainer>
+          <TweetAvatar />
+        </AvatarContainer>
 
-        <InputBottom previewLength={preview.length}>
-          <div onClick={onClickImage}>
-            <MdOutlineImage />
-          </div>
-          <ImageInput
-            type={'file'}
-            ref={imageRef}
-            accept="image/*"
-            onChange={onChangeImage}
+        <InputContainer onSubmit={onSubmitTweet}>
+          <TweetTextArea
+            placeholder="What's happening?"
+            ref={textRef}
+            onInput={handleResizeHeight}
+            rows={2}
+            onKeyUp={calcLetterCount}
+            onKeyDown={calcLetterCount}
+            maxLength={150}
+            value={tweetText}
+            onChange={(event) => onChangeTweetText(event)}
           />
+          <PreviewContainer>
+            {preview.map((image, index) => (
+              <PreviewBox key={index}>
+                <PreviewDelete
+                  onClick={(event: React.MouseEvent) =>
+                    onClickPreviewDelete(event, index)
+                  }
+                >
+                  <MdClear />
+                </PreviewDelete>
+                <PreviewImage
+                  previewLength={preview.length}
+                  index={index}
+                  src={image}
+                />
+              </PreviewBox>
+            ))}
+          </PreviewContainer>
 
-          <TweetButtonContainer>
-            <LetterCount>{maxLength}</LetterCount>
+          <InputBottom previewLength={preview.length}>
+            <div onClick={onClickImage}>
+              <MdOutlineImage />
+            </div>
+            <ImageInput
+              type={'file'}
+              ref={imageRef}
+              accept="image/*"
+              onChange={onChangeImage}
+            />
 
-            <InputTweetButton disabled={isInputFill} isInputFill={isInputFill}>
-              Tweet
-            </InputTweetButton>
-          </TweetButtonContainer>
-        </InputBottom>
-      </InputContainer>
-    </TweetInputContainer>
+            <TweetButtonContainer>
+              <LetterCount>{maxLength}</LetterCount>
+
+              <InputTweetButton
+                disabled={!isInputFill && !tweetUploadLoading}
+                isInputFill={isInputFill}
+              >
+                Tweet
+              </InputTweetButton>
+            </TweetButtonContainer>
+          </InputBottom>
+        </InputContainer>
+      </TweetInputContainer>
+    </>
   );
 }
 
