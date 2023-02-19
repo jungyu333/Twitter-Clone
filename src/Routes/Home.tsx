@@ -1,5 +1,5 @@
 import Logo from 'components/common/Logo';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   MdHome,
@@ -11,6 +11,8 @@ import UserInfoButton from 'components/home/UserInfoButton';
 import MainHeader from 'components/home/MainHeader';
 import TweetInput from 'components/home/TweetInput';
 import TweetModal from 'components/home/TweetModal';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 const Wrapper = styled.div`
   display: flex;
@@ -80,9 +82,16 @@ const NavigationContainer = styled.div`
 
 function Home() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { tweetUploadDone } = useSelector((state: RootState) => state.tweet);
   const onClickTweet = () => {
     setIsOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (tweetUploadDone) {
+      setIsOpen((prev) => !prev);
+    }
+  }, [tweetUploadDone]);
   return (
     <Wrapper>
       <Header>

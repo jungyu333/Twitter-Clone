@@ -10,9 +10,9 @@ const ModalContainer = styled.div`
   max-height: 90vh;
   border-radius: 10px;
   box-shadow: 1px 1px 1px ${({ theme }) => theme.colors.lightgray};
-  top: 20%;
+  top: 10%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0);
   background-color: ${({ theme }) => theme.colors.white};
   display: flex;
   flex-direction: column;
