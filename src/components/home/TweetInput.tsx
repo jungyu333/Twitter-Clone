@@ -5,25 +5,13 @@ import { useSelector } from 'react-redux';
 import { createTweet } from 'redux/action/tweet';
 import { RootState, useAppDispatch } from 'redux/store';
 import styled from 'styled-components';
+import TweetInputAvatar from './TweetInputAvatar';
 
 const TweetInputContainer = styled.div`
   padding: 5px 14px;
   display: flex;
   width: 100%;
   border-bottom: 1px solid ${({ theme }) => theme.colors.lightgray};
-`;
-
-const AvatarContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-  margin-right: 12px;
-`;
-
-const TweetAvatar = styled.div`
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  background-color: gray;
 `;
 
 const InputContainer = styled.form`
@@ -226,6 +214,7 @@ function TweetInput() {
   useEffect(() => {
     if (tweetUploadDone) {
       setTweetText('');
+      setMaxLength(0);
     }
   }, [tweetUploadDone]);
 
@@ -234,9 +223,7 @@ function TweetInput() {
       {tweetUploadLoading && <LinearLoading />}
 
       <TweetInputContainer>
-        <AvatarContainer>
-          <TweetAvatar />
-        </AvatarContainer>
+        <TweetInputAvatar />
 
         <InputContainer onSubmit={onSubmitTweet}>
           <TweetTextArea
