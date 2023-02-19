@@ -24,6 +24,10 @@ const ModalContainer = styled.div`
     padding: 0;
     border-bottom: none;
   }
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const ExitButton = styled.div`
