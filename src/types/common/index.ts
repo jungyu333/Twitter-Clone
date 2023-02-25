@@ -19,4 +19,9 @@ export interface IUser {
   birthDay: number | null;
   name: string;
   uid: string;
+  avatar: string;
+}
+
+export interface ITweetInputAvatar {
+  avatarUrl: string;
 }

@@ -50,7 +50,7 @@ function UserInfoButton() {
   return (
     <>
       <UserButtonContainer onClick={onClickUserButton}>
-        <Avatar src={process.env.REACT_APP_DEFAULT_AVATAR} />
+        <Avatar src={user?.avatar} />
         <InfoContainer>
           <h1>{user?.name}</h1>
           <span>{user?.email}</span>
