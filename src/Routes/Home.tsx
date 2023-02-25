@@ -89,7 +89,7 @@ function Home() {
 
   useEffect(() => {
     if (tweetUploadDone) {
-      setIsOpen((prev) => !prev);
+      setIsOpen(false);
     }
   }, [tweetUploadDone]);
   return (

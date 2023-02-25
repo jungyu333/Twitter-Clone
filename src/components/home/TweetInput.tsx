@@ -198,6 +198,7 @@ function TweetInput() {
 
   const onSubmitTweet = (event: React.FormEvent) => {
     event.preventDefault();
+
     if (user) {
       const createdAt = Date.now();
 
@@ -206,6 +207,7 @@ function TweetInput() {
           text: tweetText,
           userId: user.uid,
           createdAt: createdAt,
+          tweetImages: preview,
         }),
       );
     }
@@ -215,6 +217,7 @@ function TweetInput() {
     if (tweetUploadDone) {
       setTweetText('');
       setMaxLength(0);
+      setPreview([]);
     }
   }, [tweetUploadDone]);
 
@@ -222,10 +225,10 @@ function TweetInput() {
     <>
       {tweetUploadLoading && <LinearLoading />}
 
-      <TweetInputContainer>
+      <TweetInputContainer onSubmit={onSubmitTweet}>
         <TweetInputAvatar avatarUrl={user?.avatar!} />
 
-        <InputContainer onSubmit={onSubmitTweet}>
+        <InputContainer>
           <TweetTextArea
             placeholder="What's happening?"
             ref={textRef}
@@ -271,7 +274,8 @@ function TweetInput() {
               <LetterCount>{maxLength}</LetterCount>
 
               <InputTweetButton
-                disabled={!isInputFill && !tweetUploadLoading}
+                type="submit"
+                disabled={maxLength === 0 && !tweetUploadLoading}
                 isInputFill={isInputFill}
               >
                 Tweet
