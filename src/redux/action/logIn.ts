@@ -36,6 +36,7 @@ export const googleLogIn = createAsyncThunk(
           birthDay: null,
           birthMonth: null,
           birthYear: null,
+          avatar: response.user.photoURL,
         });
 
         const newUserSnap = await getDoc(userDocument);

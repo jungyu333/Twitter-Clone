@@ -40,6 +40,7 @@ export const signUp = createAsyncThunk(
           birthDay: day,
           birthMonth: month,
           birthYear: year,
+          avatar: process.env.REACT_APP_DEFAULT_AVATAR,
         });
 
         return { email: response.user.email, uid: response.user.uid };

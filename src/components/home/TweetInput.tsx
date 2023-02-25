@@ -223,7 +223,7 @@ function TweetInput() {
       {tweetUploadLoading && <LinearLoading />}
 
       <TweetInputContainer>
-        <TweetInputAvatar />
+        <TweetInputAvatar avatarUrl={user?.avatar!} />
 
         <InputContainer onSubmit={onSubmitTweet}>
           <TweetTextArea
