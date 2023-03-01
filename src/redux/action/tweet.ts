@@ -1,15 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { addDoc, collection, setDoc } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  DocumentData,
+  DocumentReference,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+} from 'firebase/firestore';
 import { dataBaseService, storageService } from 'fbase/config';
 import { v4 } from 'uuid';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
-
-interface ITweetData {
-  text: string;
-  userId: string;
-  createdAt: number;
-  tweetImages?: string[];
-}
+import { ITweetData, ITweet } from 'types/home';
+import { IUser } from 'types/common';
 
 export const createTweet = createAsyncThunk(
   'post/tweet',
@@ -30,14 +35,45 @@ export const createTweet = createAsyncThunk(
         await Promise.all(imagePromise);
       }
 
-      await addDoc(collection(dataBaseService, 'tweets'), {
-        text: text,
-        userId: userId,
-        createdAt: createdAt,
-        images: attachmentImages.length === 0 ? [] : attachmentImages,
-      });
+      const writerDocument = doc(
+        dataBaseService,
+        'users',
+        userId,
+      ) as DocumentReference<IUser>;
+
+      const writerSnap = await getDoc(writerDocument);
+      const writerData = writerSnap.data();
+
+      if (writerData) {
+        await addDoc(collection(dataBaseService, 'tweets'), {
+          text: text,
+          userId: writerData.uid,
+          avatar: writerData.avatar,
+          email: writerData.email,
+          name: writerData.name,
+          createdAt: createdAt,
+          images: attachmentImages.length === 0 ? [] : attachmentImages,
+        });
+      }
     } catch (error) {
       return thunkApi.rejectWithValue('업로드에 실패하였습니다.');
+    }
+  },
+);
+
+export const loadTweets = createAsyncThunk(
+  'load/tweets',
+  async (data, thunkApi) => {
+    try {
+      const tweets: ITweet[] = [];
+      const tweetsQuery = query(collection(dataBaseService, 'tweets'));
+      const tweetsSnap = await getDocs(tweetsQuery);
+      tweetsSnap.forEach((tweet) => {
+        tweets.push(tweet.data() as ITweet);
+      });
+      return tweets;
+    } catch (error) {
+      return thunkApi.rejectWithValue('게시물을 가져오는데 실패하였습니다.');
     }
   },
 );

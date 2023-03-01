@@ -99,7 +99,7 @@ export const logOut = createAsyncThunk('logout', async (data, thunkApi) => {
 
 export const loginCheck = createAsyncThunk(
   'login/check',
-  async (data: any, thunkApi) => {
+  async (data: IUser, thunkApi) => {
     try {
       const userData = data;
       if (userData) {

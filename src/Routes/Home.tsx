@@ -14,6 +14,7 @@ import TweetModal from 'components/home/TweetModal';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from 'redux/store';
 import TweetCard from 'components/home/TweetCard';
+import Tweets from 'components/home/Tweets';
 
 const Wrapper = styled.div`
   display: flex;
@@ -124,7 +125,7 @@ function Home() {
         <MainContainer>
           <MainHeader />
           <TweetInput />
-          <TweetCard />
+          <Tweets />
         </MainContainer>
       </Main>
       <TweetModal isOpen={isOpen} onClickTweet={onClickTweet} />

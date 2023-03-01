@@ -20,3 +20,24 @@ export interface IMainHeaderTabButton {
   isFollowing: boolean;
   index: number;
 }
+
+export interface ITweet {
+  createdAt: number;
+  images: string[];
+  text: string;
+  userId: string;
+  email: string;
+  name: string;
+  avatar: string;
+}
+
+export interface ITweetData {
+  text: string;
+  userId: string;
+  createdAt: number;
+  tweetImages?: string[];
+}
+
+export interface ITweetCard {
+  tweetData: ITweet;
+}

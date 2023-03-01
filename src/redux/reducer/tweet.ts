@@ -1,18 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { googleLogIn, localLogIn, logOut } from 'redux/action/logIn';
-import { createTweet } from 'redux/action/tweet';
+import { createTweet, loadTweets } from 'redux/action/tweet';
 import { IUser } from 'types/common';
+import { ITweet } from 'types/home';
 
 export interface tweetState {
   tweetUploadLoading: boolean;
   tweetUploadError: string | null;
   tweetUploadDone: boolean;
+  tweets: ITweet[];
+  tweetsLoading: boolean;
+  tweetsError: string | null;
 }
 
 const initialState: tweetState = {
   tweetUploadLoading: false,
   tweetUploadError: null,
   tweetUploadDone: false,
+  tweets: [],
+  tweetsLoading: false,
+  tweetsError: null,
 };
 
 export const tweetSlice = createSlice({
@@ -35,6 +42,18 @@ export const tweetSlice = createSlice({
         state.tweetUploadLoading = false;
         state.tweetUploadError = action.payload as string;
         state.tweetUploadDone = false;
+      })
+      .addCase(loadTweets.pending, (state) => {
+        state.tweetsLoading = true;
+        state.tweetsError = null;
+      })
+      .addCase(loadTweets.fulfilled, (state, action) => {
+        state.tweetsLoading = false;
+        state.tweets = state.tweets.concat(action.payload);
+      })
+      .addCase(loadTweets.rejected, (state, action) => {
+        state.tweetsLoading = false;
+        state.tweetsError = action.payload as string;
       });
   },
 });

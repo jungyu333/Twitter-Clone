@@ -94,12 +94,7 @@ export const logInSlice = createSlice({
       .addCase(loginCheck.pending, (state) => {})
 
       .addCase(loginCheck.fulfilled, (state, action) => {
-        console.log(action);
-        if (action.payload) {
-          console.log('payload 잇음');
-          console.log(action.payload);
-          state.user = action.payload;
-        }
+        state.user = action.payload;
       })
       .addCase(loginCheck.rejected, (state, action) => {
         state.loginCheckError = action.payload as string;
