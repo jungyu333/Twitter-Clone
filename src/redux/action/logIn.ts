@@ -96,3 +96,19 @@ export const logOut = createAsyncThunk('logout', async (data, thunkApi) => {
     return thunkApi.rejectWithValue('로그아웃에 실패했습니다.');
   }
 });
+
+export const loginCheck = createAsyncThunk(
+  'login/check',
+  async (data: any, thunkApi) => {
+    try {
+      const userData = data;
+      if (userData) {
+        return userData;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);

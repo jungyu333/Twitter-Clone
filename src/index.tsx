@@ -13,14 +13,12 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <StyledEngineProvider injectFirst>
-        <GlobalStyles />
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <StyledEngineProvider injectFirst>
+      <GlobalStyles />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </StyledEngineProvider>
+  </Provider>,
 );

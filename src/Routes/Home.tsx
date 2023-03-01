@@ -12,7 +12,7 @@ import MainHeader from 'components/home/MainHeader';
 import TweetInput from 'components/home/TweetInput';
 import TweetModal from 'components/home/TweetModal';
 import { useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState, useAppDispatch } from 'redux/store';
 import TweetCard from 'components/home/TweetCard';
 
 const Wrapper = styled.div`
@@ -84,6 +84,7 @@ const NavigationContainer = styled.div`
 function Home() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { tweetUploadDone } = useSelector((state: RootState) => state.tweet);
+  const dispatch = useAppDispatch();
   const onClickTweet = () => {
     setIsOpen((prev) => !prev);
   };
@@ -93,6 +94,7 @@ function Home() {
       setIsOpen(false);
     }
   }, [tweetUploadDone]);
+
   return (
     <Wrapper>
       <Header>
