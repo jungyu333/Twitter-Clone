@@ -2,13 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { googleLogIn, localLogIn, logOut } from 'redux/action/logIn';
 import { createTweet, loadTweets } from 'redux/action/tweet';
 import { IUser } from 'types/common';
-import { ITweets } from 'types/home';
+import { ITweet } from 'types/home';
 
 export interface tweetState {
   tweetUploadLoading: boolean;
   tweetUploadError: string | null;
   tweetUploadDone: boolean;
-  tweets: ITweets[];
+  tweets: ITweet[];
   tweetsLoading: boolean;
   tweetsError: string | null;
 }

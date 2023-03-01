@@ -2,6 +2,7 @@ import React from 'react';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { MdOutlineModeComment } from 'react-icons/md';
 import styled from 'styled-components';
+import { ITweetCard } from 'types/home';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -11,8 +12,7 @@ const Wrapper = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.lightgray};
 `;
 
-const Avatar = styled.div`
-  background-color: gray;
+const Avatar = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -42,10 +42,26 @@ const MainHeader = styled.header`
   }
 `;
 
-const ImageContainer = styled.div`
+const TweetText = styled.div`
+  margin-top: 10px;
+`;
+
+const ImageContainer = styled.div<{ imageLnegth: number }>`
   width: 100%;
-  height: 400px;
+  height: max-content;
   margin: 10px 0;
+  display: ${({ imageLnegth }) => (imageLnegth === 1 ? 'block' : 'grid')};
+  grid-template-columns: ${({ imageLnegth }) =>
+    imageLnegth >= 2 ? '1fr 1fr' : ''};
+  grid-template-rows: ${({ imageLnegth }) =>
+    imageLnegth >= 3 ? '1fr 1fr' : ''};
+  gap: 5px;
+  justify-items: center;
+`;
+
+const Image = styled.img`
+  width: 200px;
+  height: 200px;
 `;
 
 const MainBottom = styled.div``;
@@ -67,16 +83,21 @@ const Button = styled.div`
   }
 `;
 
-function TweetCard() {
+function TweetCard({ tweetData }: ITweetCard) {
   return (
     <Wrapper>
-      <Avatar />
+      <Avatar src={tweetData.avatar} />
       <MainContent>
         <MainHeader>
-          <h1>이름</h1>
-          <h2>이메일</h2>
+          <h1>{tweetData.name}</h1>
+          <h2>{tweetData.email}</h2>
         </MainHeader>
-        <ImageContainer></ImageContainer>
+        <TweetText>{tweetData.text}</TweetText>
+        <ImageContainer imageLnegth={tweetData.images.length}>
+          {tweetData.images.map((image, index) => (
+            <Image key={index} src={image}></Image>
+          ))}
+        </ImageContainer>
         <MainBottom>
           <ButtonContainer>
             <Button>

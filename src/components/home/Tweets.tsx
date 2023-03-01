@@ -10,10 +10,11 @@ function Tweets() {
   useEffect(() => {
     dispatch(loadTweets());
   }, []);
+
   return (
     <div>
       {tweets.map((tweet, index) => (
-        <TweetCard />
+        <TweetCard tweetData={tweet} key={index} />
       ))}
     </div>
   );

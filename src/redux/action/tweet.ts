@@ -13,7 +13,7 @@ import {
 import { dataBaseService, storageService } from 'fbase/config';
 import { v4 } from 'uuid';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
-import { ITweetData, ITweets } from 'types/home';
+import { ITweetData, ITweet } from 'types/home';
 import { IUser } from 'types/common';
 
 export const createTweet = createAsyncThunk(
@@ -65,11 +65,11 @@ export const loadTweets = createAsyncThunk(
   'load/tweets',
   async (data, thunkApi) => {
     try {
-      const tweets: ITweets[] = [];
+      const tweets: ITweet[] = [];
       const tweetsQuery = query(collection(dataBaseService, 'tweets'));
       const tweetsSnap = await getDocs(tweetsQuery);
       tweetsSnap.forEach((tweet) => {
-        tweets.push(tweet.data() as ITweets);
+        tweets.push(tweet.data() as ITweet);
       });
       return tweets;
     } catch (error) {

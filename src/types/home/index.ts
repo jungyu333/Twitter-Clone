@@ -21,7 +21,7 @@ export interface IMainHeaderTabButton {
   index: number;
 }
 
-export interface ITweets {
+export interface ITweet {
   createdAt: number;
   images: string[];
   text: string;
@@ -36,4 +36,8 @@ export interface ITweetData {
   userId: string;
   createdAt: number;
   tweetImages?: string[];
+}
+
+export interface ITweetCard {
+  tweetData: ITweet;
 }
