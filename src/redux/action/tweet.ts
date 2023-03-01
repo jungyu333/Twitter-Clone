@@ -2,7 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   addDoc,
   collection,
+  doc,
   DocumentData,
+  DocumentReference,
   getDoc,
   getDocs,
   query,
@@ -12,6 +14,7 @@ import { dataBaseService, storageService } from 'fbase/config';
 import { v4 } from 'uuid';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { ITweetData, ITweets } from 'types/home';
+import { IUser } from 'types/common';
 
 export const createTweet = createAsyncThunk(
   'post/tweet',
@@ -32,12 +35,26 @@ export const createTweet = createAsyncThunk(
         await Promise.all(imagePromise);
       }
 
-      await addDoc(collection(dataBaseService, 'tweets'), {
-        text: text,
-        userId: userId,
-        createdAt: createdAt,
-        images: attachmentImages.length === 0 ? [] : attachmentImages,
-      });
+      const writerDocument = doc(
+        dataBaseService,
+        'users',
+        userId,
+      ) as DocumentReference<IUser>;
+
+      const writerSnap = await getDoc(writerDocument);
+      const writerData = writerSnap.data();
+
+      if (writerData) {
+        await addDoc(collection(dataBaseService, 'tweets'), {
+          text: text,
+          userId: writerData.uid,
+          avatar: writerData.avatar,
+          email: writerData.email,
+          name: writerData.name,
+          createdAt: createdAt,
+          images: attachmentImages.length === 0 ? [] : attachmentImages,
+        });
+      }
     } catch (error) {
       return thunkApi.rejectWithValue('업로드에 실패하였습니다.');
     }

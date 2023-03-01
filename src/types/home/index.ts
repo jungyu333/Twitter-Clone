@@ -26,6 +26,9 @@ export interface ITweets {
   images: string[];
   text: string;
   userId: string;
+  email: string;
+  name: string;
+  avatar: string;
 }
 
 export interface ITweetData {
