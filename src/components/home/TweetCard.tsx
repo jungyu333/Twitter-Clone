@@ -1,8 +1,8 @@
 import React from 'react';
-import { AiOutlineHeart } from 'react-icons/ai';
-import { MdOutlineModeComment } from 'react-icons/md';
 import styled from 'styled-components';
 import { ITweetCard } from 'types/home';
+import CommentButton from './CommentButton';
+import HeartButton from './HeartButton';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -64,23 +64,14 @@ const Image = styled.img`
   height: 200px;
 `;
 
-const MainBottom = styled.div``;
+const MainBottom = styled.div`
+  border-top: 1px solid ${({ theme }) => theme.colors.lightgray};
+`;
 
 const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 5px 0;
-`;
-
-const Button = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 0 10px;
-  & span {
-    margin-left: 10px;
-    line-height: 2;
-    font-size: 0.8rem;
-  }
 `;
 
 function TweetCard({ tweetData }: ITweetCard) {
@@ -100,14 +91,8 @@ function TweetCard({ tweetData }: ITweetCard) {
         </ImageContainer>
         <MainBottom>
           <ButtonContainer>
-            <Button>
-              <MdOutlineModeComment />
-              <span>1</span>
-            </Button>
-            <Button>
-              <AiOutlineHeart />
-              <span>23</span>
-            </Button>
+            <CommentButton />
+            <HeartButton />
           </ButtonContainer>
         </MainBottom>
       </MainContent>

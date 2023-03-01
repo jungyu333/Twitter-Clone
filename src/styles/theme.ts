@@ -12,6 +12,7 @@ const colors = {
   black: '#0F141A',
   lightcontents: '#A6D0F5',
   gray: '#5D6164',
+  heart: '#f72019',
 };
 
 export type ColorsTypes = typeof colors;
