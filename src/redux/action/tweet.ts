@@ -1,15 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { addDoc, collection, setDoc } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  DocumentData,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+} from 'firebase/firestore';
 import { dataBaseService, storageService } from 'fbase/config';
 import { v4 } from 'uuid';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
-
-interface ITweetData {
-  text: string;
-  userId: string;
-  createdAt: number;
-  tweetImages?: string[];
-}
+import { ITweetData, ITweets } from 'types/home';
 
 export const createTweet = createAsyncThunk(
   'post/tweet',
@@ -38,6 +40,23 @@ export const createTweet = createAsyncThunk(
       });
     } catch (error) {
       return thunkApi.rejectWithValue('업로드에 실패하였습니다.');
+    }
+  },
+);
+
+export const loadTweets = createAsyncThunk(
+  'load/tweets',
+  async (data, thunkApi) => {
+    try {
+      const tweets: ITweets[] = [];
+      const tweetsQuery = query(collection(dataBaseService, 'tweets'));
+      const tweetsSnap = await getDocs(tweetsQuery);
+      tweetsSnap.forEach((tweet) => {
+        tweets.push(tweet.data() as ITweets);
+      });
+      return tweets;
+    } catch (error) {
+      return thunkApi.rejectWithValue('게시물을 가져오는데 실패하였습니다.');
     }
   },
 );
