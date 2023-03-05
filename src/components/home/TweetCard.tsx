@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ITweetCard } from 'types/home';
 import CommentButton from './CommentButton';
 import HeartButton from './HeartButton';
+import TweetComent from './TweetComent';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -75,6 +76,8 @@ const ButtonContainer = styled.div`
 `;
 
 function TweetCard({ tweetData }: ITweetCard) {
+  const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
+
   return (
     <Wrapper>
       <Avatar src={tweetData.avatar} />
@@ -91,10 +94,12 @@ function TweetCard({ tweetData }: ITweetCard) {
         </ImageContainer>
         <MainBottom>
           <ButtonContainer>
-            <CommentButton />
+            <CommentButton setIsCommentOpen={setIsCommentOpen} />
+
             <HeartButton />
           </ButtonContainer>
         </MainBottom>
+        {isCommentOpen && <TweetComent />}
       </MainContent>
     </Wrapper>
   );

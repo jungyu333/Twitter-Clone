@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { MdOutlineModeComment } from 'react-icons/md';
 import styled from 'styled-components';
 
@@ -20,9 +20,17 @@ const Button = styled.div`
   }
 `;
 
-function CommentButton() {
+interface ICommentButton {
+  setIsCommentOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function CommentButton({ setIsCommentOpen }: ICommentButton) {
+  const onClickComment = useCallback(() => {
+    setIsCommentOpen((prev: boolean) => !prev);
+  }, []);
+
   return (
-    <Button>
+    <Button onClick={onClickComment}>
       <MdOutlineModeComment />
       <span>1</span>
     </Button>
