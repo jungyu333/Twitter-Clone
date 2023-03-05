@@ -99,7 +99,7 @@ function TweetCard({ tweetData }: ITweetCard) {
             <HeartButton />
           </ButtonContainer>
         </MainBottom>
-        {isCommentOpen && <TweetComment />}
+        {isCommentOpen && <TweetComment tweetId={tweetData.id} />}
       </MainContent>
     </Wrapper>
   );

@@ -1,4 +1,7 @@
 import React, { useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { createComment } from 'redux/action/comment';
+import { RootState, useAppDispatch } from 'redux/store';
 import styled from 'styled-components';
 
 const Wrapper = styled.form`
@@ -38,15 +41,31 @@ const CommentSubmitButton = styled.button`
   }
 `;
 
-function TweetComment() {
+interface ITweetComment {
+  tweetId: string;
+}
+
+function TweetComment({ tweetId }: ITweetComment) {
   const [commentText, setCommentText] = useState<string>('');
+  const dispatch = useAppDispatch();
+  const { user } = useSelector((state: RootState) => state.login);
 
   const onSubmitComment = (event: React.FormEvent) => {
     event.preventDefault();
     if (commentText.length === 0) {
       return;
     } else {
-      console.log(commentText);
+      if (user) {
+        const createdAt = Date.now();
+        dispatch(
+          createComment({
+            tweetId: tweetId,
+            userId: user.uid,
+            createdAt: createdAt,
+            text: commentText,
+          }),
+        );
+      }
     }
     setCommentText('');
   };

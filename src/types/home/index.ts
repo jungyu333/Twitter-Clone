@@ -29,6 +29,7 @@ export interface ITweet {
   email: string;
   name: string;
   avatar: string;
+  id: string;
 }
 
 export interface ITweetData {

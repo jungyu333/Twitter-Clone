@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { googleLogIn, localLogIn, logOut } from 'redux/action/logIn';
 import { createTweet, loadTweets } from 'redux/action/tweet';
-import { IUser } from 'types/common';
 import { ITweet } from 'types/home';
 
 export interface tweetState {

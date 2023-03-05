@@ -3,12 +3,10 @@ import {
   addDoc,
   collection,
   doc,
-  DocumentData,
   DocumentReference,
   getDoc,
   getDocs,
   query,
-  setDoc,
 } from 'firebase/firestore';
 import { dataBaseService, storageService } from 'fbase/config';
 import { v4 } from 'uuid';
@@ -69,7 +67,9 @@ export const loadTweets = createAsyncThunk(
       const tweetsQuery = query(collection(dataBaseService, 'tweets'));
       const tweetsSnap = await getDocs(tweetsQuery);
       tweetsSnap.forEach((tweet) => {
-        tweets.push(tweet.data() as ITweet);
+        const tweetId = tweet.id;
+        const temp = { ...tweet.data(), id: tweetId };
+        tweets.push(temp as ITweet);
       });
       return tweets;
     } catch (error) {
