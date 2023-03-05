@@ -30,6 +30,7 @@ export interface ITweet {
   name: string;
   avatar: string;
   id: string;
+  comments?: IComment[];
 }
 
 export interface ITweetData {
@@ -41,4 +42,28 @@ export interface ITweetData {
 
 export interface ITweetCard {
   tweetData: ITweet;
+}
+
+export interface ICreateCommentData {
+  userId: string;
+  tweetId: string;
+  text: string;
+  createdAt: number;
+}
+
+export interface ITweetCommentInputProps {
+  tweetId: string;
+}
+
+export interface ITweetCommentsProps extends ITweetCommentInputProps {}
+
+export interface IComment {
+  userId: string;
+  tweetId: string;
+  createdAt: number;
+  avatar: string;
+  email: string;
+  name: string;
+  text: string;
+  id: string;
 }

@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
+import { loadComments } from 'redux/action/comment';
 import { createTweet, loadTweets } from 'redux/action/tweet';
 import { ITweet } from 'types/home';
 
@@ -9,6 +10,9 @@ export interface tweetState {
   tweets: ITweet[];
   tweetsLoading: boolean;
   tweetsError: string | null;
+  commentsLoadLoading: boolean;
+  commentsLoadError: string | null;
+  comments: any[];
 }
 
 const initialState: tweetState = {
@@ -18,6 +22,9 @@ const initialState: tweetState = {
   tweets: [],
   tweetsLoading: false,
   tweetsError: null,
+  commentsLoadLoading: false,
+  commentsLoadError: null,
+  comments: [],
 };
 
 export const tweetSlice = createSlice({
@@ -52,6 +59,27 @@ export const tweetSlice = createSlice({
       .addCase(loadTweets.rejected, (state, action) => {
         state.tweetsLoading = false;
         state.tweetsError = action.payload as string;
+      })
+      .addCase(loadComments.pending, (state) => {
+        state.commentsLoadLoading = true;
+        state.commentsLoadError = null;
+      })
+      .addCase(loadComments.fulfilled, (state, action) => {
+        const comments = action.payload.comments;
+        const tweets = [...current(state.tweets)];
+        const index = tweets.findIndex(
+          (tweet) => tweet.id === action.payload.tweetId,
+        );
+
+        const tweetHasComments = { ...tweets[index], comments: comments };
+
+        tweets.splice(index, 1, tweetHasComments);
+        state.tweets = tweets;
+        state.commentsLoadLoading = false;
+      })
+      .addCase(loadComments.rejected, (state, action) => {
+        state.commentsLoadLoading = false;
+        state.commentsLoadError = action.payload as string;
       });
   },
 });

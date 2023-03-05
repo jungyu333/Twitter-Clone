@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { createComment } from 'redux/action/comment';
 import { RootState, useAppDispatch } from 'redux/store';
 import styled from 'styled-components';
+import { ITweetCommentInputProps } from 'types/home';
 
 const Wrapper = styled.form`
   width: 100%;
@@ -41,11 +42,7 @@ const CommentSubmitButton = styled.button`
   }
 `;
 
-interface ITweetComment {
-  tweetId: string;
-}
-
-function TweetComment({ tweetId }: ITweetComment) {
+function TweetCommentInput({ tweetId }: ITweetCommentInputProps) {
   const [commentText, setCommentText] = useState<string>('');
   const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.login);
@@ -85,4 +82,4 @@ function TweetComment({ tweetId }: ITweetComment) {
   );
 }
 
-export default TweetComment;
+export default TweetCommentInput;

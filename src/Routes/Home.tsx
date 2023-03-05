@@ -13,7 +13,6 @@ import TweetInput from 'components/home/TweetInput';
 import TweetModal from 'components/home/TweetModal';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from 'redux/store';
-import TweetCard from 'components/home/TweetCard';
 import Tweets from 'components/home/Tweets';
 
 const Wrapper = styled.div`
@@ -23,7 +22,6 @@ const Wrapper = styled.div`
   height: 100vh;
 `;
 const Header = styled.header`
-  border-right: 1px solid ${({ theme }) => theme.colors.lightgray};
   display: flex;
   flex-grow: 1.5;
   justify-content: flex-end;
@@ -61,6 +59,8 @@ const Main = styled.main`
 
 const MainContainer = styled.div`
   width: 550px;
+  height: max-content;
+  border-left: 1px solid ${({ theme }) => theme.colors.lightgray};
   border-right: 1px solid ${({ theme }) => theme.colors.lightgray};
 `;
 

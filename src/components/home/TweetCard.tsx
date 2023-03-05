@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { ITweetCard } from 'types/home';
 import CommentButton from './CommentButton';
 import HeartButton from './HeartButton';
-import TweetComment from './TweetComment';
+import TweetCommentInput from './TweetCommentInput';
+import TweetComments from './TweetComments';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -99,7 +100,12 @@ function TweetCard({ tweetData }: ITweetCard) {
             <HeartButton />
           </ButtonContainer>
         </MainBottom>
-        {isCommentOpen && <TweetComment tweetId={tweetData.id} />}
+        {isCommentOpen && (
+          <>
+            <TweetCommentInput tweetId={tweetData.id} />
+            <TweetComments tweetId={tweetData.id} />
+          </>
+        )}
       </MainContent>
     </Wrapper>
   );
