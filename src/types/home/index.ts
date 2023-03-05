@@ -49,3 +49,7 @@ export interface ICreateCommentData {
   text: string;
   createdAt: number;
 }
+
+export interface ITweetCommentInput {
+  tweetId: string;
+}
