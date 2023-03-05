@@ -42,3 +42,10 @@ export interface ITweetData {
 export interface ITweetCard {
   tweetData: ITweet;
 }
+
+export interface ICreateCommentData {
+  userId: string;
+  tweetId: string;
+  text: string;
+  createdAt: number;
+}

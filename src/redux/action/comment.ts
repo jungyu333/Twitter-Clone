@@ -8,10 +8,11 @@ import {
   getDoc,
 } from 'firebase/firestore';
 import { IUser } from 'types/common';
+import { ICreateCommentData } from 'types/home';
 
 export const createComment = createAsyncThunk(
   'post/comment',
-  async (data: any, thunkApi) => {
+  async (data: ICreateCommentData, thunkApi) => {
     try {
       const { tweetId, userId, text, createdAt } = data;
 
