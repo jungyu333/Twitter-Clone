@@ -1,4 +1,7 @@
 import React, { useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { createComment } from 'redux/action/comment';
+import { RootState, useAppDispatch } from 'redux/store';
 import styled from 'styled-components';
 
 const Wrapper = styled.form`
@@ -11,6 +14,10 @@ const Wrapper = styled.form`
     width: 100%;
     padding: 10px 5px;
     resize: none;
+    font-size: 0.8rem;
+    color: ${({ theme }) => theme.colors.gray};
+    line-height: 1.2;
+    border: 1px solid ${({ theme }) => theme.colors.lightgray};
     :focus {
       outline-color: ${({ theme }) => theme.colors.lightcontents};
     }
@@ -34,15 +41,31 @@ const CommentSubmitButton = styled.button`
   }
 `;
 
-function TweetComent() {
+interface ITweetComment {
+  tweetId: string;
+}
+
+function TweetComment({ tweetId }: ITweetComment) {
   const [commentText, setCommentText] = useState<string>('');
+  const dispatch = useAppDispatch();
+  const { user } = useSelector((state: RootState) => state.login);
 
   const onSubmitComment = (event: React.FormEvent) => {
     event.preventDefault();
     if (commentText.length === 0) {
       return;
     } else {
-      console.log(commentText);
+      if (user) {
+        const createdAt = Date.now();
+        dispatch(
+          createComment({
+            tweetId: tweetId,
+            userId: user.uid,
+            createdAt: createdAt,
+            text: commentText,
+          }),
+        );
+      }
     }
     setCommentText('');
   };
@@ -62,4 +85,4 @@ function TweetComent() {
   );
 }
 
-export default TweetComent;
+export default TweetComment;

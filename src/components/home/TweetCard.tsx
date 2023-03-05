@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { ITweetCard } from 'types/home';
 import CommentButton from './CommentButton';
 import HeartButton from './HeartButton';
-import TweetComent from './TweetComent';
+import TweetComment from './TweetComment';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -99,7 +99,7 @@ function TweetCard({ tweetData }: ITweetCard) {
             <HeartButton />
           </ButtonContainer>
         </MainBottom>
-        {isCommentOpen && <TweetComent />}
+        {isCommentOpen && <TweetComment tweetId={tweetData.id} />}
       </MainContent>
     </Wrapper>
   );
