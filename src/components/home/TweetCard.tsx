@@ -103,7 +103,7 @@ function TweetCard({ tweetData }: ITweetCard) {
         {isCommentOpen && (
           <>
             <TweetCommentInput tweetId={tweetData.id} />
-            <TweetComments />
+            <TweetComments tweetId={tweetData.id} />
           </>
         )}
       </MainContent>

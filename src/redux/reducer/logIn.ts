@@ -51,7 +51,6 @@ export const logInSlice = createSlice({
         state.logInError = null;
         state.logOutDone = false;
         if (action.payload) {
-          console.log(action.payload);
           state.user = action.payload;
         }
       })

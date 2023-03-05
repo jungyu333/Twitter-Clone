@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { loadComments } from 'redux/action/comment';
+import { useAppDispatch } from 'redux/store';
 import styled from 'styled-components';
+import { ITweetCommentsProps } from 'types/home';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -60,7 +63,11 @@ const Text = styled.div`
   margin-top: 5px;
 `;
 
-function TweetComments() {
+function TweetComments({ tweetId }: ITweetCommentsProps) {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(loadComments(tweetId));
+  }, []);
   return (
     <Wrapper>
       {[1, 2, 3, 4, 5].map((item) => (
