@@ -28,6 +28,10 @@ time, mark, audio, video, textarea {
 	:visited {
 		color : black;
 	}
+	-webkit-user-select:none;
+  	-moz-user-select:none;
+  	-ms-user-select:none;
+  	user-select:none
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
