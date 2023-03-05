@@ -11,6 +11,10 @@ const Wrapper = styled.form`
     width: 100%;
     padding: 10px 5px;
     resize: none;
+    font-size: 0.8rem;
+    color: ${({ theme }) => theme.colors.gray};
+    line-height: 1.2;
+    border: 1px solid ${({ theme }) => theme.colors.lightgray};
     :focus {
       outline-color: ${({ theme }) => theme.colors.lightcontents};
     }
@@ -34,7 +38,7 @@ const CommentSubmitButton = styled.button`
   }
 `;
 
-function TweetComent() {
+function TweetComment() {
   const [commentText, setCommentText] = useState<string>('');
 
   const onSubmitComment = (event: React.FormEvent) => {
@@ -62,4 +66,4 @@ function TweetComent() {
   );
 }
 
-export default TweetComent;
+export default TweetComment;
