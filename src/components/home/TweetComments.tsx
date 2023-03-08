@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { loadComments } from 'redux/action/comment';
-import { useAppDispatch } from 'redux/store';
+import { RootState, useAppDispatch } from 'redux/store';
 import styled from 'styled-components';
-import { ITweetCommentsProps } from 'types/home';
+import { IComment, ITweet, ITweetCommentsProps } from 'types/home';
 
 const Wrapper = styled.div`
   width: 100%;
 `;
 
-const Avater = styled.div`
-  background-color: gray;
+const Avater = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -60,32 +60,51 @@ const HeaderInfo = styled.div`
 const Text = styled.div`
   max-width: 500px;
   word-break: break-all;
-  margin-top: 5px;
+  margin-top: 10px;
 `;
 
 function TweetComments({ tweetId }: ITweetCommentsProps) {
   const dispatch = useAppDispatch();
+  const [clickTweet, setClickTweet] = useState<ITweet | null>(null);
+  const { tweets, commentsLoadDone } = useSelector(
+    (state: RootState) => state.tweet,
+  );
+
   useEffect(() => {
     dispatch(loadComments(tweetId));
   }, []);
+
+  useEffect(() => {
+    if (commentsLoadDone) {
+      const tweet = tweets.find((tweet) => {
+        return tweet.id === tweetId;
+      });
+      if (tweet) {
+        setClickTweet(tweet);
+      }
+    }
+  }, [commentsLoadDone]);
+
   return (
     <Wrapper>
-      {[1, 2, 3, 4, 5].map((item) => (
-        <CommentsContainer>
-          <Avater />
-          <Comment>
-            <CommentHeader>
-              <HeaderInfo>
-                <h1>이름</h1>
-                <h2>이메일</h2>
-              </HeaderInfo>
+      {clickTweet &&
+        clickTweet.comments &&
+        clickTweet.comments.map((comment: IComment) => (
+          <CommentsContainer key={comment.id}>
+            <Avater src={comment.avatar} />
+            <Comment>
+              <CommentHeader>
+                <HeaderInfo>
+                  <h1>{comment.name}</h1>
+                  <h2>{comment.email}</h2>
+                </HeaderInfo>
 
-              <span>날짜</span>
-            </CommentHeader>
-            <Text>text</Text>
-          </Comment>
-        </CommentsContainer>
-      ))}
+                <span>{comment.createdAt}</span>
+              </CommentHeader>
+              <Text>{comment.text}</Text>
+            </Comment>
+          </CommentsContainer>
+        ))}
     </Wrapper>
   );
 }

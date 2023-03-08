@@ -12,7 +12,7 @@ export interface tweetState {
   tweetsError: string | null;
   commentsLoadLoading: boolean;
   commentsLoadError: string | null;
-  comments: any[];
+  commentsLoadDone: boolean;
 }
 
 const initialState: tweetState = {
@@ -24,7 +24,7 @@ const initialState: tweetState = {
   tweetsError: null,
   commentsLoadLoading: false,
   commentsLoadError: null,
-  comments: [],
+  commentsLoadDone: false,
 };
 
 export const tweetSlice = createSlice({
@@ -63,6 +63,7 @@ export const tweetSlice = createSlice({
       .addCase(loadComments.pending, (state) => {
         state.commentsLoadLoading = true;
         state.commentsLoadError = null;
+        state.commentsLoadDone = false;
       })
       .addCase(loadComments.fulfilled, (state, action) => {
         const comments = action.payload.comments;
@@ -76,10 +77,12 @@ export const tweetSlice = createSlice({
         tweets.splice(index, 1, tweetHasComments);
         state.tweets = tweets;
         state.commentsLoadLoading = false;
+        state.commentsLoadDone = true;
       })
       .addCase(loadComments.rejected, (state, action) => {
         state.commentsLoadLoading = false;
         state.commentsLoadError = action.payload as string;
+        state.commentsLoadDone = false;
       });
   },
 });
