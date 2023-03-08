@@ -67,3 +67,7 @@ export interface IComment {
   text: string;
   id: string;
 }
+
+export interface ICommentButtonProps {
+  setIsCommentOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
