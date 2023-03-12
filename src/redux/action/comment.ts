@@ -7,6 +7,8 @@ import {
   DocumentReference,
   getDoc,
   getDocs,
+  onSnapshot,
+  updateDoc,
 } from 'firebase/firestore';
 import { IUser } from 'types/common';
 import { IComment, ICreateCommentData } from 'types/home';
@@ -44,6 +46,13 @@ export const createComment = createAsyncThunk(
           createdAt: createdAt,
         });
       }
+
+      const tweetRef = doc(dataBaseService, 'tweets', tweetId);
+
+      onSnapshot(commentsRef, (querySnapshot) => {
+        const commentsNum = querySnapshot.size;
+        updateDoc(tweetRef, { commentsNum: commentsNum });
+      });
     } catch (error) {
       return thunkApi.rejectWithValue('댓글 작성에 실패하였습니다.');
     }

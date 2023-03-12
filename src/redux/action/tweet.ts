@@ -52,6 +52,7 @@ export const createTweet = createAsyncThunk(
           email: writerData.email,
           name: writerData.name,
           createdAt: createdAt,
+          commentsNum: 0,
           images: attachmentImages.length === 0 ? [] : attachmentImages,
         });
       }
