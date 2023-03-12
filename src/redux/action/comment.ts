@@ -28,8 +28,15 @@ export const createComment = createAsyncThunk(
       const writerSnap = await getDoc(writerDocument);
       const writerData = writerSnap.data();
 
+      const commentsRef = collection(
+        dataBaseService,
+        'tweets',
+        tweetId,
+        'comments',
+      );
+
       if (writerData) {
-        await addDoc(collection(dataBaseService, 'comments'), {
+        await addDoc(commentsRef, {
           text: text,
           tweetId: tweetId,
           userId: writerData.uid,
