@@ -7,8 +7,6 @@ import {
   DocumentReference,
   getDoc,
   getDocs,
-  query,
-  where,
 } from 'firebase/firestore';
 import { IUser } from 'types/common';
 import { IComment, ICreateCommentData } from 'types/home';
@@ -58,11 +56,11 @@ export const loadComments = createAsyncThunk(
     try {
       const comments: IComment[] = [];
       const tweetId = data;
-      const commentsQuery = query(
-        collection(dataBaseService, 'comments'),
-        where('tweetId', '==', tweetId),
-      );
-      const commentsSnap = await getDocs(commentsQuery);
+      const tweetsRef = collection(dataBaseService, 'tweets');
+      const tweetDocRef = doc(tweetsRef, tweetId);
+
+      const commentsSnap = await getDocs(collection(tweetDocRef, 'comments'));
+
       commentsSnap.forEach((comment) => {
         const commentId = comment.id;
         const temp = { ...comment.data(), id: commentId };
