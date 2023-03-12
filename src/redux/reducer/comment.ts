@@ -11,7 +11,7 @@ const initialState: commentState = {
   createCommentLoading: false,
 };
 
-export const commentSlice = createSlice({
+const commentSlice = createSlice({
   name: 'comment',
   initialState,
   reducers: {},
@@ -31,3 +31,5 @@ export const commentSlice = createSlice({
       });
   },
 });
+
+export default commentSlice;

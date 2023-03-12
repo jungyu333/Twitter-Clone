@@ -14,6 +14,7 @@ import TweetModal from 'components/home/TweetModal';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from 'redux/store';
 import Tweets from 'components/home/Tweets';
+import { resetTweets } from 'redux/reducer/tweet';
 
 const Wrapper = styled.div`
   display: flex;
@@ -84,6 +85,7 @@ const NavigationContainer = styled.div`
 
 function Home() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { logInDone } = useSelector((state: RootState) => state.login);
   const { tweetUploadDone } = useSelector((state: RootState) => state.tweet);
   const dispatch = useAppDispatch();
   const onClickTweet = () => {
@@ -95,6 +97,12 @@ function Home() {
       setIsOpen(false);
     }
   }, [tweetUploadDone]);
+
+  useEffect(() => {
+    if (logInDone) {
+      dispatch(resetTweets());
+    }
+  }, [logInDone]);
 
   return (
     <Wrapper>
