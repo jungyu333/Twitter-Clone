@@ -27,10 +27,14 @@ const initialState: tweetState = {
   commentsLoadDone: false,
 };
 
-export const tweetSlice = createSlice({
+const tweetSlice = createSlice({
   name: 'tweet',
   initialState,
-  reducers: {},
+  reducers: {
+    resetTweets: (state) => {
+      state.tweets = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createTweet.pending, (state) => {
@@ -86,3 +90,6 @@ export const tweetSlice = createSlice({
       });
   },
 });
+
+export const { resetTweets } = tweetSlice.actions;
+export default tweetSlice;

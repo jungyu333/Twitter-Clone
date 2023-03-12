@@ -29,7 +29,7 @@ const initialState: LogInState = {
   loginCheckError: null,
 };
 
-export const logInSlice = createSlice({
+const logInSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {},
@@ -100,3 +100,5 @@ export const logInSlice = createSlice({
       });
   },
 });
+
+export default logInSlice;

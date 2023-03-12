@@ -1,12 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
-  addDoc,
   collection,
   doc,
   DocumentReference,
   getDoc,
   getDocs,
   query,
+  setDoc,
 } from 'firebase/firestore';
 import { dataBaseService, storageService } from 'fbase/config';
 import { v4 } from 'uuid';
@@ -41,9 +41,11 @@ export const createTweet = createAsyncThunk(
 
       const writerSnap = await getDoc(writerDocument);
       const writerData = writerSnap.data();
+      const tweetRef = collection(dataBaseService, 'tweets');
+      const newTweetRef = doc(tweetRef);
 
       if (writerData) {
-        await addDoc(collection(dataBaseService, 'tweets'), {
+        await setDoc(newTweetRef, {
           text: text,
           userId: writerData.uid,
           avatar: writerData.avatar,
