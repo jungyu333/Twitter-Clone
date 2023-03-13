@@ -1,6 +1,5 @@
 import { createSlice, current } from '@reduxjs/toolkit';
-import { loadComments } from 'redux/action/comment';
-import { createTweet, loadTweets } from 'redux/action/tweet';
+import { createComment, createTweet, loadTweets } from 'redux/action/tweet';
 import { ITweet } from 'types/home';
 
 export interface tweetState {
@@ -13,6 +12,9 @@ export interface tweetState {
   commentsLoadLoading: boolean;
   commentsLoadError: string | null;
   commentsLoadDone: boolean;
+  createCommentError: string | null;
+  createCommentLoading: boolean;
+  createCommentDone: boolean;
 }
 
 const initialState: tweetState = {
@@ -25,6 +27,9 @@ const initialState: tweetState = {
   commentsLoadLoading: false,
   commentsLoadError: null,
   commentsLoadDone: false,
+  createCommentError: null,
+  createCommentLoading: false,
+  createCommentDone: false,
 };
 
 const tweetSlice = createSlice({
@@ -64,29 +69,34 @@ const tweetSlice = createSlice({
         state.tweetsLoading = false;
         state.tweetsError = action.payload as string;
       })
-      .addCase(loadComments.pending, (state) => {
-        state.commentsLoadLoading = true;
-        state.commentsLoadError = null;
-        state.commentsLoadDone = false;
+      .addCase(createComment.pending, (state) => {
+        state.createCommentLoading = true;
+        state.createCommentError = null;
+        state.createCommentDone = false;
       })
-      .addCase(loadComments.fulfilled, (state, action) => {
-        const comments = action.payload.comments;
-        const tweets = [...current(state.tweets)];
-        const index = tweets.findIndex(
-          (tweet) => tweet.id === action.payload.tweetId,
-        );
-
-        const tweetHasComments = { ...tweets[index], comments: comments };
-
-        tweets.splice(index, 1, tweetHasComments);
-        state.tweets = tweets;
-        state.commentsLoadLoading = false;
-        state.commentsLoadDone = true;
+      .addCase(createComment.fulfilled, (state, action) => {
+        state.createCommentLoading = false;
+        state.createCommentError = null;
+        state.createCommentDone = true;
+        const tweetId = action.payload?.tweetId;
+        if (tweetId) {
+          const tweets = [...current(state.tweets)];
+          const index = tweets.findIndex((tweet) => {
+            return tweet.id === tweetId;
+          });
+          let currentCommentsNum = tweets[index].commentsNum;
+          const modifyTweets = {
+            ...tweets[index],
+            commentsNum: currentCommentsNum + 1,
+          };
+          tweets.splice(index, 1, modifyTweets);
+          state.tweets = tweets;
+        }
       })
-      .addCase(loadComments.rejected, (state, action) => {
-        state.commentsLoadLoading = false;
-        state.commentsLoadError = action.payload as string;
-        state.commentsLoadDone = false;
+      .addCase(createComment.rejected, (state, action) => {
+        state.createCommentLoading = false;
+        state.createCommentDone = false;
+        state.createCommentError = action.payload as string;
       });
   },
 });

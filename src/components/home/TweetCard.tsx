@@ -95,15 +95,20 @@ function TweetCard({ tweetData }: ITweetCard) {
         </ImageContainer>
         <MainBottom>
           <ButtonContainer>
-            <CommentButton setIsCommentOpen={setIsCommentOpen} />
+            <CommentButton
+              commentsNum={tweetData.commentsNum}
+              setIsCommentOpen={setIsCommentOpen}
+            />
 
             <HeartButton />
           </ButtonContainer>
         </MainBottom>
         {isCommentOpen && (
           <>
-            <TweetCommentInput tweetId={tweetData.id} />
-            <TweetComments tweetId={tweetData.id} />
+            <TweetCommentInput
+              tweetId={tweetData.id}
+              setIsCommentOpen={setIsCommentOpen}
+            />
           </>
         )}
       </MainContent>

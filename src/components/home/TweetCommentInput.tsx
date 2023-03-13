@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { createComment } from 'redux/action/comment';
+import { createComment } from 'redux/action/tweet';
 import { RootState, useAppDispatch } from 'redux/store';
 import styled from 'styled-components';
 import { ITweetCommentInputProps } from 'types/home';
@@ -42,7 +42,10 @@ const CommentSubmitButton = styled.button`
   }
 `;
 
-function TweetCommentInput({ tweetId }: ITweetCommentInputProps) {
+function TweetCommentInput({
+  tweetId,
+  setIsCommentOpen,
+}: ITweetCommentInputProps) {
   const [commentText, setCommentText] = useState<string>('');
   const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.login);
@@ -61,11 +64,14 @@ function TweetCommentInput({ tweetId }: ITweetCommentInputProps) {
             createdAt: createdAt,
             text: commentText,
           }),
-        );
+        ).then(() => {
+          setCommentText('');
+          setIsCommentOpen(false);
+        });
       }
     }
-    setCommentText('');
   };
+
   const onChangeCommentText = useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement>) => {
       const text = event.target.value;

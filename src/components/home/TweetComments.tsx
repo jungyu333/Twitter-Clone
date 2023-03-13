@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { loadComments } from 'redux/action/comment';
-import { RootState, useAppDispatch } from 'redux/store';
+import { RootState } from 'redux/store';
 import styled from 'styled-components';
 import { IComment, ITweet, ITweetCommentsProps } from 'types/home';
 import CommentItem from './CommentItem';
@@ -11,15 +10,10 @@ const Wrapper = styled.div`
 `;
 
 function TweetComments({ tweetId }: ITweetCommentsProps) {
-  const dispatch = useAppDispatch();
   const [clickTweet, setClickTweet] = useState<ITweet | null>(null);
   const { tweets, commentsLoadDone } = useSelector(
     (state: RootState) => state.tweet,
   );
-
-  useEffect(() => {
-    dispatch(loadComments(tweetId));
-  }, []);
 
   useEffect(() => {
     if (commentsLoadDone) {

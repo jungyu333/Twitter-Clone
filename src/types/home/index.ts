@@ -30,6 +30,7 @@ export interface ITweet {
   name: string;
   avatar: string;
   id: string;
+  commentsNum: number;
   comments?: IComment[];
 }
 
@@ -53,6 +54,7 @@ export interface ICreateCommentData {
 
 export interface ITweetCommentInputProps {
   tweetId: string;
+  setIsCommentOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface ITweetCommentsProps extends ITweetCommentInputProps {}
@@ -69,5 +71,6 @@ export interface IComment {
 }
 
 export interface ICommentButtonProps {
+  commentsNum: number;
   setIsCommentOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
