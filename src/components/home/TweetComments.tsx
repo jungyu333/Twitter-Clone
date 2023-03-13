@@ -28,11 +28,11 @@ function TweetComments({ tweetId }: ITweetCommentsProps) {
 
   return (
     <Wrapper>
-      {clickTweet &&
+      {/* {clickTweet &&
         clickTweet.comments &&
         clickTweet.comments.map((comment: IComment) => (
           <CommentItem key={comment.id} {...comment} />
-        ))}
+        ))} */}
     </Wrapper>
   );
 }

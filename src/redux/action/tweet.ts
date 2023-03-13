@@ -7,6 +7,7 @@ import {
   getDoc,
   getDocs,
   onSnapshot,
+  orderBy,
   query,
   setDoc,
   updateDoc,
@@ -70,7 +71,10 @@ export const loadTweets = createAsyncThunk(
   async (data, thunkApi) => {
     try {
       const tweets: ITweet[] = [];
-      const tweetsQuery = query(collection(dataBaseService, 'tweets'));
+      const tweetsQuery = query(
+        collection(dataBaseService, 'tweets'),
+        orderBy('createdAt', 'desc'),
+      );
       const tweetsSnap = await getDocs(tweetsQuery);
       tweetsSnap.forEach((tweet) => {
         const tweetId = tweet.id;
