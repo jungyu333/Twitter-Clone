@@ -1,17 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
+  addDoc,
   collection,
   doc,
   DocumentReference,
   getDoc,
   getDocs,
+  onSnapshot,
   query,
   setDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import { dataBaseService, storageService } from 'fbase/config';
 import { v4 } from 'uuid';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
-import { ITweetData, ITweet } from 'types/home';
+import { ITweetData, ITweet, ICreateCommentData } from 'types/home';
 import { IUser } from 'types/common';
 
 export const createTweet = createAsyncThunk(
@@ -52,6 +55,7 @@ export const createTweet = createAsyncThunk(
           email: writerData.email,
           name: writerData.name,
           createdAt: createdAt,
+          commentsNum: 0,
           images: attachmentImages.length === 0 ? [] : attachmentImages,
         });
       }
@@ -76,6 +80,64 @@ export const loadTweets = createAsyncThunk(
       return tweets;
     } catch (error) {
       return thunkApi.rejectWithValue('게시물을 가져오는데 실패하였습니다.');
+    }
+  },
+);
+
+export const createComment = createAsyncThunk(
+  'post/comment',
+  async (data: ICreateCommentData, thunkApi) => {
+    try {
+      const { tweetId, userId, text, createdAt } = data;
+
+      const writerDocument = doc(
+        dataBaseService,
+        'users',
+        userId,
+      ) as DocumentReference<IUser>;
+
+      const writerSnap = await getDoc(writerDocument);
+      const writerData = writerSnap.data();
+
+      const commentsRef = collection(
+        dataBaseService,
+        'tweets',
+        tweetId,
+        'comments',
+      );
+
+      if (writerData) {
+        const newCommentRef = await addDoc(commentsRef, {
+          text: text,
+          tweetId: tweetId,
+          userId: writerData.uid,
+          avatar: writerData.avatar,
+          email: writerData.email,
+          name: writerData.name,
+          createdAt: createdAt,
+        });
+
+        const tweetRef = doc(dataBaseService, 'tweets', tweetId);
+
+        onSnapshot(commentsRef, (querySnapshot) => {
+          const commentsNum = querySnapshot.size;
+          updateDoc(tweetRef, { commentsNum: commentsNum });
+        });
+
+        const commentRef = doc(
+          dataBaseService,
+          'tweets',
+          tweetId,
+          'comments',
+          newCommentRef.id,
+        );
+        const commentDoc = await getDoc(commentRef);
+        return { tweetId: tweetId, comment: commentDoc.data() };
+      } else {
+        return null;
+      }
+    } catch (error) {
+      return thunkApi.rejectWithValue('댓글 작성에 실패하였습니다.');
     }
   },
 );

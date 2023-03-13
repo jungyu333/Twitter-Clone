@@ -21,7 +21,7 @@ const Button = styled.div`
   }
 `;
 
-function CommentButton({ setIsCommentOpen }: ICommentButtonProps) {
+function CommentButton({ setIsCommentOpen, commentsNum }: ICommentButtonProps) {
   const onClickComment = useCallback(() => {
     setIsCommentOpen((prev: boolean) => !prev);
   }, []);
@@ -29,7 +29,7 @@ function CommentButton({ setIsCommentOpen }: ICommentButtonProps) {
   return (
     <Button onClick={onClickComment}>
       <MdOutlineModeComment />
-      <span>1</span>
+      <span>{commentsNum}</span>
     </Button>
   );
 }
