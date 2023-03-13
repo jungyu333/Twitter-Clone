@@ -31,7 +31,6 @@ export interface ITweet {
   avatar: string;
   id: string;
   commentsNum: number;
-  comments?: IComment[];
 }
 
 export interface ITweetData {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ITweetCard } from 'types/home';
 import CommentButton from './CommentButton';
@@ -11,7 +12,13 @@ const Wrapper = styled.div`
   padding: 10px 15px;
   display: flex;
   justify-content: center;
+  cursor: pointer;
+  transition: 0.1s ease-in;
   border-bottom: 1px solid ${({ theme }) => theme.colors.lightgray};
+  :hover {
+    background-color: ${({ theme }) => theme.colors.lightgray};
+    transition: 0.1s ease-in;
+  }
 `;
 
 const Avatar = styled.img`
@@ -64,6 +71,7 @@ const ImageContainer = styled.div<{ imageLnegth: number }>`
 const Image = styled.img`
   width: 200px;
   height: 200px;
+  border-radius: 10px;
 `;
 
 const MainBottom = styled.div`
@@ -78,9 +86,13 @@ const ButtonContainer = styled.div`
 
 function TweetCard({ tweetData }: ITweetCard) {
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
-
+  const navigation = useNavigate();
+  const onClickCard = () => {
+    console.log(tweetData.id);
+    navigation(`/tweet/${tweetData.id}`);
+  };
   return (
-    <Wrapper>
+    <Wrapper onClick={onClickCard}>
       <Avatar src={tweetData.avatar} />
       <MainContent>
         <MainHeader>
