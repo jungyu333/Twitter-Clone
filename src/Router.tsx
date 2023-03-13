@@ -5,22 +5,29 @@ import Home from 'Routes/Home';
 import LogIn from 'Routes/LogIn';
 import LogOut from 'Routes/LogOut';
 import PrivateRoute from 'Routes/PrivateRoute';
+import Tweet from 'Routes/Tweet';
+import NavigationBar from 'components/common/NavigationBar';
 
 function Router() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route element={<PrivateRoute />}>
-          <Route path="/home" element={<Home />} />
-        </Route>
+      <NavigationBar>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/home" element={<Home />} />
+          </Route>
 
-        <Route path="/login" element={<LogIn />} />
+          <Route path="/login" element={<LogIn />} />
 
-        <Route element={<PrivateRoute />}>
-          <Route path="/logout" element={<LogOut />} />
-        </Route>
-      </Routes>
+          <Route element={<PrivateRoute />}>
+            <Route path="/logout" element={<LogOut />} />
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path="/tweet/:id" element={<Tweet />} />{' '}
+          </Route>
+        </Routes>
+      </NavigationBar>
     </BrowserRouter>
   );
 }
