@@ -1,19 +1,11 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { loadTweets } from 'redux/action/tweet';
-import { RootState, useAppDispatch } from 'redux/store';
+import React from 'react';
+import { ITweetsProps } from 'types/home';
 import TweetCard from './TweetCard';
 
-function Tweets() {
-  const dispatch = useAppDispatch();
-  const { tweets } = useSelector((state: RootState) => state.tweet);
-  useEffect(() => {
-    dispatch(loadTweets());
-  }, []);
-
+function Tweets({ tweetsData }: ITweetsProps) {
   return (
     <div>
-      {tweets.map((tweet, index) => (
+      {tweetsData.map((tweet, index) => (
         <TweetCard tweetData={tweet} key={index} />
       ))}
     </div>

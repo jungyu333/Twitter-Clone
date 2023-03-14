@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from 'redux/store';
 import Tweets from 'components/home/Tweets';
 import { resetTweets } from 'redux/reducer/tweet';
+import { loadTweets } from 'redux/action/tweet';
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ const MainContainer = styled.div`
 `;
 
 function Home() {
+  const { tweets } = useSelector((state: RootState) => state.tweet);
   const { logInDone } = useSelector((state: RootState) => state.login);
   const dispatch = useAppDispatch();
 
@@ -35,13 +37,17 @@ function Home() {
     }
   }, [logInDone]);
 
+  useEffect(() => {
+    dispatch(loadTweets());
+  }, []);
+
   return (
     <Wrapper>
       <Main>
         <MainContainer>
           <MainHeader />
           <TweetInput />
-          <Tweets />
+          <Tweets tweetsData={tweets} />
         </MainContainer>
       </Main>
     </Wrapper>
