@@ -5,7 +5,7 @@ import Home from 'Routes/Home';
 import LogIn from 'Routes/LogIn';
 import LogOut from 'Routes/LogOut';
 import PrivateRoute from 'Routes/PrivateRoute';
-import Tweet from 'Routes/Tweet';
+import TweetDetail from 'Routes/TweetDetail';
 import NavigationBar from 'components/common/NavigationBar';
 
 function Router() {
@@ -24,7 +24,7 @@ function Router() {
             <Route path="/logout" element={<LogOut />} />
           </Route>
           <Route element={<PrivateRoute />}>
-            <Route path="/tweet/:id" element={<Tweet />} />{' '}
+            <Route path="/tweet/:id" element={<TweetDetail />} />
           </Route>
         </Routes>
       </NavigationBar>
