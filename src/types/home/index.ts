@@ -73,3 +73,7 @@ export interface ICommentButtonProps {
   commentsNum: number;
   setIsCommentOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface ITweetsProps {
+  tweetsData: ITweet[];
+}

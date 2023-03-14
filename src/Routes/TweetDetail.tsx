@@ -22,7 +22,7 @@ function TweetDetail() {
     <Wrapper>
       <MainContainer>
         <TweetDetailHeader />
-        <Tweets />
+        {/* <Tweets /> */}
       </MainContainer>
     </Wrapper>
   );
