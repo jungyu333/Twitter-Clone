@@ -1,5 +1,6 @@
 import React from 'react';
 import { MdKeyboardBackspace } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Wrapper = styled.header`
@@ -51,10 +52,14 @@ const BackButton = styled.div`
 `;
 
 function TweetDetailHeader() {
+  const navigation = useNavigate();
+  const onClickBack = () => {
+    navigation(-1);
+  };
   return (
     <Wrapper>
       <BackButton>
-        <button>
+        <button onClick={onClickBack}>
           <MdKeyboardBackspace />
         </button>
       </BackButton>
